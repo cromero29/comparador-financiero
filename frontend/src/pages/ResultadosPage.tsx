@@ -150,7 +150,7 @@ export const ResultadosPage = () => {
               </div>
               
               <p className="text-sm text-gray-600 mt-4">
-                💡 Las ofertas están ordenadas de mejor a peor según tasa, costo total y condiciones
+                💡 Te estamos mostrando las {resultado.resumen.totalOfertas} mejores opciones iniciando por la entidad que tiene la mejor tasa de interés para ti
               </p>
             </div>
             
