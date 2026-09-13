@@ -28,7 +28,7 @@ async function main() {
       nombre: 'Bancolombia',
       tipo: TipoEntidad.BANCO,
       sitioWeb: 'https://www.bancolombia.com',
-      logo: 'https://www.bancolombia.com/logo.png',
+      logo: 'https://www.bancolombia.com/wcm/connect/www.bancolombia.com-16740/4b4e1a49-f62c-4b82-8f72-00a5a61cab41/logo-bancolombia-desktop.svg',
       activa: true
     }
   });
@@ -39,7 +39,7 @@ async function main() {
       nombre: 'Banco Davivienda',
       tipo: TipoEntidad.BANCO,
       sitioWeb: 'https://www.davivienda.com',
-      logo: 'https://www.davivienda.com/logo.png',
+      logo: 'https://www.davivienda.com/wps/themes/theme_personas/images/logo.svg',
       activa: true
     }
   });
@@ -50,7 +50,7 @@ async function main() {
       nombre: 'BBVA Colombia',
       tipo: TipoEntidad.BANCO,
       sitioWeb: 'https://www.bbva.com.co',
-      logo: 'https://www.bbva.com.co/logo.png',
+      logo: 'https://www.bbva.com.co/content/dam/public-web/global/images/logos/logo_bbva_blanco.svg',
       activa: true
     }
   });
@@ -61,7 +61,7 @@ async function main() {
       nombre: 'Banco de Bogotá',
       tipo: TipoEntidad.BANCO,
       sitioWeb: 'https://www.bancodebogota.com',
-      logo: 'https://www.bancodebogota.com/logo.png',
+      logo: 'https://www.bancodebogota.com/wps/themes/BancodeBogotaTheme/assets/img/logo-banco-de-bogota.svg',
       activa: true
     }
   });
@@ -72,7 +72,7 @@ async function main() {
       nombre: 'RappiPay',
       tipo: TipoEntidad.FINTECH,
       sitioWeb: 'https://www.rappipay.com',
-      logo: 'https://www.rappipay.com/logo.png',
+      logo: 'https://images.rappi.com/web/rappipay-logo.svg',
       activa: true
     }
   });
@@ -83,7 +83,7 @@ async function main() {
       nombre: 'Addi',
       tipo: TipoEntidad.FINTECH,
       sitioWeb: 'https://www.addi.com',
-      logo: 'https://www.addi.com/logo.png',
+      logo: 'https://cdn.addi.com/assets/logo-addi.svg',
       activa: true
     }
   });
@@ -94,7 +94,7 @@ async function main() {
       nombre: 'Lineru',
       tipo: TipoEntidad.FINTECH,
       sitioWeb: 'https://www.lineru.com',
-      logo: 'https://www.lineru.com/logo.png',
+      logo: 'https://www.lineru.com/static/media/logo-lineru.svg',
       activa: true
     }
   });
@@ -105,7 +105,7 @@ async function main() {
       nombre: 'Coofinep',
       tipo: TipoEntidad.COOPERATIVA,
       sitioWeb: 'https://www.coofinep.com.co',
-      logo: 'https://www.coofinep.com.co/logo.png',
+      logo: 'https://www.coofinep.com.co/wp-content/themes/coofinep/img/logo.png',
       activa: true
     }
   });
@@ -131,7 +131,7 @@ async function main() {
       montoMinimo: 1000000,
       montoMaximo: 100000000,
       plazoMinimoMeses: 12,
-      plazoMaximoMeses: 84,
+      plazoMaximoMeses: 60,
       costoEstudio: 50000,
       costoAdministracion: 0.5,
       seguroVida: 0.12,
@@ -162,7 +162,7 @@ async function main() {
       montoMinimo: 1000000,
       montoMaximo: 80000000,
       plazoMinimoMeses: 6,
-      plazoMaximoMeses: 72,
+      plazoMaximoMeses: 60,
       costoEstudio: 40000,
       costoAdministracion: 0.6,
       seguroVida: 0.15,
@@ -224,7 +224,7 @@ async function main() {
       montoMinimo: 3000000,
       montoMaximo: 150000000,
       plazoMinimoMeses: 12,
-      plazoMaximoMeses: 96,
+      plazoMaximoMeses: 60,
       costoEstudio: 60000,
       costoAdministracion: 0.4,
       seguroVida: 0.12,
@@ -255,7 +255,7 @@ async function main() {
       montoMinimo: 2500000,
       montoMaximo: 120000000,
       plazoMinimoMeses: 12,
-      plazoMaximoMeses: 84,
+      plazoMaximoMeses: 60,
       costoEstudio: 50000,
       costoAdministracion: 0.5,
       seguroVida: 0.15,
@@ -288,7 +288,7 @@ async function main() {
       montoMinimo: 1000000,
       montoMaximo: 90000000,
       plazoMinimoMeses: 12,
-      plazoMaximoMeses: 72,
+      plazoMaximoMeses: 60,
       costoEstudio: 45000,
       costoAdministracion: 0.5,
       seguroVida: 0.13,
@@ -443,7 +443,7 @@ async function main() {
       montoMinimo: 3000000,
       montoMaximo: 130000000,
       plazoMinimoMeses: 12,
-      plazoMaximoMeses: 84,
+      plazoMaximoMeses: 60,
       costoEstudio: 55000,
       costoAdministracion: 0.45,
       seguroVida: 0.13,
@@ -474,7 +474,7 @@ async function main() {
       montoMinimo: 2500000,
       montoMaximo: 110000000,
       plazoMinimoMeses: 12,
-      plazoMaximoMeses: 72,
+      plazoMaximoMeses: 60,
       costoEstudio: 60000,
       costoAdministracion: 0.50,
       seguroVida: 0.14,

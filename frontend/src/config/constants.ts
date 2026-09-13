@@ -10,7 +10,7 @@ export const RANGOS = {
   },
   PLAZO: {
     MIN: 6,
-    MAX: 120,
+    MAX: 60,
     STEP: 6,
   },
   INGRESOS: {

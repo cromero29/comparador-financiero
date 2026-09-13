@@ -15,6 +15,7 @@ interface OfertaCardProps {
 export const OfertaCard = ({ oferta, onClickSolicitar }: OfertaCardProps) => {
   const [showDetails, setShowDetails] = useState(false);
   const [isRedirecting, setIsRedirecting] = useState(false);
+  const [logoError, setLogoError] = useState(false);
   
   const rankingColor = RANKING_COLORS[oferta.ranking.posicion as 1 | 2 | 3] || RANKING_COLORS.default;
   const icon = ENTIDAD_ICONS[oferta.entidad.nombre.toUpperCase().replace(/\s/g, '_')] || '🏦';
@@ -52,7 +53,16 @@ export const OfertaCard = ({ oferta, onClickSolicitar }: OfertaCardProps) => {
       <CardHeader>
         <div className="flex items-start justify-between">
           <div className="flex items-center gap-3">
-            <span className="text-4xl">{icon}</span>
+            {oferta.entidad.logo && !logoError ? (
+              <img 
+                src={oferta.entidad.logo} 
+                alt={oferta.entidad.nombre}
+                className="h-12 w-auto object-contain"
+                onError={() => setLogoError(true)}
+              />
+            ) : (
+              <span className="text-4xl">{icon}</span>
+            )}
             <div>
               <CardTitle className="text-lg">{oferta.entidad.nombre}</CardTitle>
               <p className="text-sm text-gray-600">{oferta.producto.nombre}</p>
