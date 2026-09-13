@@ -275,6 +275,225 @@ async function main() {
 
   console.log(`✅ ${5} productos de ejemplo creados`);
 
+  // BBVA - Libre Inversión
+  await prisma.producto.create({
+    data: {
+      entidadId: bbva.id,
+      nombre: 'Préstamo Personal BBVA',
+      tipo: TipoProducto.LIBRE_INVERSION,
+      descripcion: 'Crédito personal con aprobación rápida',
+      tasaNominalMensual: 1.75,
+      tasaNominalAnual: 21.0,
+      tasaEfectivaAnual: 23.14,
+      montoMinimo: 1000000,
+      montoMaximo: 90000000,
+      plazoMinimoMeses: 12,
+      plazoMaximoMeses: 72,
+      costoEstudio: 45000,
+      costoAdministracion: 0.5,
+      seguroVida: 0.13,
+      seguroDesempleo: 0.04,
+      edadMinima: 18,
+      edadMaxima: 70,
+      ingresoMinimo: 1900000,
+      requiereCuentaNomina: false,
+      aceptaIndependientes: true,
+      aceptaPensionados: true,
+      urlInformacion: 'https://www.bbva.com.co/personas/productos/prestamos/prestamo-personal.html',
+      urlSolicitud: 'https://www.bbva.com.co/personas/productos/prestamos/prestamo-personal/solicitar.html',
+      activo: true,
+      verificado: false
+    }
+  });
+
+  // Banco de Bogotá - Libre Inversión
+  await prisma.producto.create({
+    data: {
+      entidadId: bancoBogota.id,
+      nombre: 'Crédito Personal',
+      tipo: TipoProducto.LIBRE_INVERSION,
+      descripcion: 'Préstamo con cuotas flexibles',
+      tasaNominalMensual: 1.85,
+      tasaNominalAnual: 22.2,
+      tasaEfectivaAnual: 24.64,
+      montoMinimo: 1000000,
+      montoMaximo: 85000000,
+      plazoMinimoMeses: 6,
+      plazoMaximoMeses: 60,
+      costoEstudio: 55000,
+      costoAdministracion: 0.55,
+      seguroVida: 0.14,
+      seguroDesempleo: 0.06,
+      edadMinima: 18,
+      edadMaxima: 72,
+      ingresoMinimo: 2000000,
+      requiereCuentaNomina: false,
+      aceptaIndependientes: true,
+      aceptaPensionados: true,
+      urlInformacion: 'https://www.bancodebogota.com/personas/creditos/credito-personal',
+      urlSolicitud: 'https://www.bancodebogota.com/personas/creditos/credito-personal/solicitar',
+      activo: true,
+      verificado: false
+    }
+  });
+
+  // Addi - Libre Inversión (Fintech)
+  await prisma.producto.create({
+    data: {
+      entidadId: addi.id,
+      nombre: 'Crédito Addi',
+      tipo: TipoProducto.LIBRE_INVERSION,
+      descripcion: 'Crédito digital sin papeleos',
+      tasaNominalMensual: 1.4,
+      tasaNominalAnual: 16.8,
+      tasaEfectivaAnual: 18.19,
+      montoMinimo: 300000,
+      montoMaximo: 10000000,
+      plazoMinimoMeses: 3,
+      plazoMaximoMeses: 24,
+      costoEstudio: 0,
+      costoAdministracion: 0,
+      seguroVida: 0.08,
+      seguroDesempleo: 0,
+      edadMinima: 18,
+      edadMaxima: 65,
+      ingresoMinimo: 1200000,
+      requiereCuentaNomina: false,
+      aceptaIndependientes: true,
+      aceptaPensionados: false,
+      urlInformacion: 'https://www.addi.com/credito',
+      urlSolicitud: 'https://www.addi.com/credito/solicitar',
+      activo: true,
+      verificado: false
+    }
+  });
+
+  // Lineru - Libre Inversión (Fintech)
+  await prisma.producto.create({
+    data: {
+      entidadId: lineru.id,
+      nombre: 'Préstamo Express',
+      tipo: TipoProducto.LIBRE_INVERSION,
+      descripcion: 'Préstamo 100% online en minutos',
+      tasaNominalMensual: 1.45,
+      tasaNominalAnual: 17.4,
+      tasaEfectivaAnual: 18.84,
+      montoMinimo: 500000,
+      montoMaximo: 8000000,
+      plazoMinimoMeses: 6,
+      plazoMaximoMeses: 18,
+      costoEstudio: 0,
+      costoAdministracion: 0,
+      seguroVida: 0.09,
+      seguroDesempleo: 0,
+      edadMinima: 21,
+      edadMaxima: 60,
+      ingresoMinimo: 1500000,
+      requiereCuentaNomina: false,
+      aceptaIndependientes: true,
+      aceptaPensionados: false,
+      urlInformacion: 'https://www.lineru.com/prestamos',
+      urlSolicitud: 'https://www.lineru.com/prestamos/solicitar',
+      activo: true,
+      verificado: false
+    }
+  });
+
+  // Coofinep - Libre Inversión (Cooperativa)
+  await prisma.producto.create({
+    data: {
+      entidadId: coofinep.id,
+      nombre: 'Crédito Libre Destinación',
+      tipo: TipoProducto.LIBRE_INVERSION,
+      descripcion: 'Crédito para asociados y no asociados',
+      tasaNominalMensual: 1.65,
+      tasaNominalAnual: 19.8,
+      tasaEfectivaAnual: 21.68,
+      montoMinimo: 1000000,
+      montoMaximo: 50000000,
+      plazoMinimoMeses: 12,
+      plazoMaximoMeses: 60,
+      costoEstudio: 35000,
+      costoAdministracion: 0.4,
+      seguroVida: 0.11,
+      seguroDesempleo: 0,
+      edadMinima: 18,
+      edadMaxima: 68,
+      ingresoMinimo: 1700000,
+      requiereCuentaNomina: false,
+      aceptaIndependientes: true,
+      aceptaPensionados: true,
+      urlInformacion: 'https://www.coofinep.com.co/creditos/libre-destinacion',
+      urlSolicitud: 'https://www.coofinep.com.co/creditos/libre-destinacion/solicitar',
+      activo: true,
+      verificado: false
+    }
+  });
+
+  // BBVA - Compra de Cartera
+  await prisma.producto.create({
+    data: {
+      entidadId: bbva.id,
+      nombre: 'Consolidación de Deudas BBVA',
+      tipo: TipoProducto.COMPRA_CARTERA,
+      descripcion: 'Unifica todas tus deudas en una sola',
+      tasaNominalMensual: 1.65,
+      tasaNominalAnual: 19.8,
+      tasaEfectivaAnual: 21.68,
+      montoMinimo: 3000000,
+      montoMaximo: 130000000,
+      plazoMinimoMeses: 12,
+      plazoMaximoMeses: 84,
+      costoEstudio: 55000,
+      costoAdministracion: 0.45,
+      seguroVida: 0.13,
+      seguroDesempleo: 0.04,
+      edadMinima: 18,
+      edadMaxima: 70,
+      ingresoMinimo: 2400000,
+      requiereCuentaNomina: false,
+      aceptaIndependientes: true,
+      aceptaPensionados: true,
+      urlInformacion: 'https://www.bbva.com.co/personas/productos/prestamos/compra-cartera.html',
+      urlSolicitud: 'https://www.bbva.com.co/personas/productos/prestamos/compra-cartera/solicitar.html',
+      activo: true,
+      verificado: false
+    }
+  });
+
+  // Banco de Bogotá - Compra de Cartera
+  await prisma.producto.create({
+    data: {
+      entidadId: bancoBogota.id,
+      nombre: 'Refinanciación de Deudas',
+      tipo: TipoProducto.COMPRA_CARTERA,
+      descripcion: 'Reduce tu carga financiera mensual',
+      tasaNominalMensual: 1.70,
+      tasaNominalAnual: 20.4,
+      tasaEfectivaAnual: 22.48,
+      montoMinimo: 2500000,
+      montoMaximo: 110000000,
+      plazoMinimoMeses: 12,
+      plazoMaximoMeses: 72,
+      costoEstudio: 60000,
+      costoAdministracion: 0.50,
+      seguroVida: 0.14,
+      seguroDesempleo: 0.06,
+      edadMinima: 18,
+      edadMaxima: 72,
+      ingresoMinimo: 2300000,
+      requiereCuentaNomina: false,
+      aceptaIndependientes: true,
+      aceptaPensionados: true,
+      urlInformacion: 'https://www.bancodebogota.com/personas/creditos/compra-cartera',
+      urlSolicitud: 'https://www.bancodebogota.com/personas/creditos/compra-cartera/solicitar',
+      activo: true,
+      verificado: false
+    }
+  });
+
+  console.log(`✅ ${12} productos totales creados (5 iniciales + 7 adicionales)`);
+
   // ============================================
   // CONFIGURACIONES DE SCRAPING
   // ============================================
@@ -344,7 +563,7 @@ async function main() {
   console.log('');
   console.log('📊 Resumen:');
   console.log(`   - ${8} Entidades financieras`);
-  console.log(`   - ${5} Productos de ejemplo`);
+  console.log(`   - ${12} Productos (8 Libre Inversión + 4 Compra Cartera)`);
   console.log(`   - ${3} Configuraciones de scraping`);
   console.log('');
 }
