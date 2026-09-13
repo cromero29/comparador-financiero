@@ -1,5 +1,5 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 80" fill="none">
-  <rect width="240" height="80" fill="white"/>
-  <!-- Texto BBVA en azul característico -->
-  <text x="20" y="50" font-family="Arial, sans-serif" font-size="42" font-weight="bold" fill="#004481" letter-spacing="-2">BBVA</text>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 60" fill="none">
+  <rect width="120" height="60" fill="white"/>
+  <!-- Texto BBVA más grande y centrado -->
+  <text x="60" y="40" font-family="Arial, sans-serif" font-size="36" font-weight="bold" fill="#004481" text-anchor="middle" letter-spacing="-1">BBVA</text>
 </svg>

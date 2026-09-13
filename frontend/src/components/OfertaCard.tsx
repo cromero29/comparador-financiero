@@ -53,12 +53,12 @@ export const OfertaCard = ({ oferta, montoSolicitado, onClickSolicitar }: Oferta
     <Card hover className={`border-l-4 ${oferta.ranking.posicion === 1 ? 'border-l-green-500' : 'border-l-primary-500'}`}>
       <CardHeader>
         <div className="flex items-start justify-between">
-          <div className="flex items-center gap-3">
-            <div className="flex-shrink-0 w-20 h-14 flex items-center justify-center bg-white rounded-lg border border-gray-200 p-2">
+          <div className="flex items-center gap-4">
+            <div className="flex-shrink-0 w-28 h-20 flex items-center justify-center bg-white rounded-lg border border-gray-200 p-3">
               <img 
                 src={logoLocal} 
                 alt={oferta.entidad.nombre}
-                className="w-full h-full object-contain"
+                className="max-w-full max-h-full object-contain"
               />
             </div>
             <div>

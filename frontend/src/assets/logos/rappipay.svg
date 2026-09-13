@@ -1,10 +1,10 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 80" fill="none">
-  <rect width="240" height="80" fill="white"/>
-  <!-- Círculo naranja Rappi -->
-  <circle cx="35" cy="40" r="22" fill="#FF4500"/>
-  <!-- Rayo blanco dentro -->
-  <path d="M 35 25 L 30 40 L 38 40 L 33 55 L 42 37 L 35 37 Z" fill="white"/>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 180 60" fill="none">
+  <rect width="180" height="60" fill="white"/>
+  <!-- Círculo naranja más grande -->
+  <circle cx="30" cy="30" r="20" fill="#FF4500"/>
+  <!-- Rayo blanco -->
+  <path d="M 30 18 L 24 30 L 32 30 L 26 42 L 37 28 L 30 28 Z" fill="white"/>
   <!-- Texto RappiPay -->
-  <text x="65" y="50" font-family="Arial, sans-serif" font-size="24" font-weight="bold" fill="#2D2D2D">Rappi</text>
-  <text x="140" y="50" font-family="Arial, sans-serif" font-size="24" font-weight="300" fill="#FF4500">Pay</text>
+  <text x="58" y="38" font-family="Arial, sans-serif" font-size="20" font-weight="bold" fill="#2D2D2D">Rappi</text>
+  <text x="115" y="38" font-family="Arial, sans-serif" font-size="20" font-weight="300" fill="#FF4500">Pay</text>
 </svg>

@@ -1,10 +1,10 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 80" fill="none">
-  <rect width="240" height="80" fill="white"/>
-  <!-- Círculo turquesa -->
-  <circle cx="35" cy="40" r="20" fill="#00D4AA"/>
-  <!-- Símbolo de billete simplificado -->
-  <rect x="28" y="35" width="14" height="10" rx="2" fill="white"/>
-  <circle cx="35" cy="40" r="3" fill="#00D4AA"/>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 140 60" fill="none">
+  <rect width="140" height="60" fill="white"/>
+  <!-- Círculo turquesa más grande -->
+  <circle cx="28" cy="30" r="18" fill="#00D4AA"/>
+  <!-- Símbolo de billete -->
+  <rect x="20" y="24" width="16" height="12" rx="2" fill="white"/>
+  <circle cx="28" cy="30" r="3.5" fill="#00D4AA"/>
   <!-- Texto Lineru -->
-  <text x="65" y="50" font-family="Arial, sans-serif" font-size="30" font-weight="bold" fill="#2D2D2D">Lineru</text>
+  <text x="54" y="38" font-family="Arial, sans-serif" font-size="24" font-weight="bold" fill="#2D2D2D">Lineru</text>
 </svg>
