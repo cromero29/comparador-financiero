@@ -1,4 +1,10 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 60" fill="none">
-  <rect width="200" height="60" rx="8" fill="#00D4AA"/>
-  <text x="100" y="42" font-family="Arial, sans-serif" font-size="30" font-weight="bold" text-anchor="middle" fill="#FFFFFF">Lineru</text>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 80" fill="none">
+  <rect width="240" height="80" fill="white"/>
+  <!-- Círculo turquesa -->
+  <circle cx="35" cy="40" r="20" fill="#00D4AA"/>
+  <!-- Símbolo de billete simplificado -->
+  <rect x="28" y="35" width="14" height="10" rx="2" fill="white"/>
+  <circle cx="35" cy="40" r="3" fill="#00D4AA"/>
+  <!-- Texto Lineru -->
+  <text x="65" y="50" font-family="Arial, sans-serif" font-size="30" font-weight="bold" fill="#2D2D2D">Lineru</text>
 </svg>

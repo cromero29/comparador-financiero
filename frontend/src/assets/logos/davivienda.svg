@@ -1,4 +1,8 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 60" fill="none">
-  <rect width="200" height="60" rx="8" fill="#ED1C24"/>
-  <text x="100" y="40" font-family="Arial, sans-serif" font-size="22" font-weight="bold" text-anchor="middle" fill="#FFFFFF">Davivienda</text>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 80" fill="none">
+  <rect width="240" height="80" fill="#C8102E"/>
+  <!-- Icono casa -->
+  <path d="M25 40 L35 30 L45 40 L45 55 L25 55 Z" fill="#FFFFFF"/>
+  <rect x="32" y="45" width="6" height="10" fill="#C8102E"/>
+  <!-- Texto DAVIVIENDA -->
+  <text x="55" y="48" font-family="Arial, sans-serif" font-size="20" font-weight="bold" fill="#FFFFFF">DAVIVIENDA</text>
 </svg>
