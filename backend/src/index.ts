@@ -7,6 +7,7 @@ import { securityHeaders, corsOptions, generalLimiter } from './middleware/secur
 import { errorHandler, notFoundHandler } from './middleware/errorHandler';
 import { requestLogger, responseMetadata } from './middleware/logging';
 import { apiRoutes } from './routes';
+import { ScraperScheduler } from './scrapers/ScraperScheduler';
 
 // Crear aplicación Express
 const app: Application = express();
@@ -68,6 +69,9 @@ app.use(errorHandler);
 // SERVER STARTUP
 // ============================================
 
+// Instancia del scheduler
+let scraperScheduler: ScraperScheduler;
+
 async function startServer() {
   try {
     // Test database connection
@@ -77,6 +81,11 @@ async function startServer() {
     if (!dbConnected) {
       throw new Error('No se pudo conectar a la base de datos');
     }
+
+    // Iniciar scheduler de scraping
+    logger.info('Iniciando scheduler de scraping...');
+    scraperScheduler = new ScraperScheduler();
+    scraperScheduler.start();
 
     // Start server
     const PORT = env.PORT || 4000;
@@ -88,6 +97,7 @@ async function startServer() {
       logger.info(`🌍 Entorno: ${env.NODE_ENV}`);
       logger.info(`📚 API: http://localhost:${PORT}/api/v1`);
       logger.info(`❤️  Health: http://localhost:${PORT}/api/v1/health`);
+      logger.info(`🤖 Scraper: ${env.SCRAPING_ENABLED ? 'Activo' : 'Desactivado'}`);
       logger.info('='.repeat(50));
     });
 
@@ -103,11 +113,17 @@ startServer();
 // Graceful shutdown
 process.on('SIGTERM', () => {
   logger.info('SIGTERM recibido. Cerrando servidor...');
+  if (scraperScheduler) {
+    scraperScheduler.stop();
+  }
   process.exit(0);
 });
 
 process.on('SIGINT', () => {
   logger.info('SIGINT recibido. Cerrando servidor...');
+  if (scraperScheduler) {
+    scraperScheduler.stop();
+  }
   process.exit(0);
 });
 
