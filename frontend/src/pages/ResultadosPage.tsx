@@ -116,7 +116,7 @@ export const ResultadosPage = () => {
             {/* Resumen */}
             <div className="bg-white rounded-lg shadow-sm p-6 mb-8">
               <h2 className="text-2xl font-bold mb-4">
-                ✨ Encontramos {resultado.resumen.totalOfertas} {resultado.resumen.totalOfertas === 1 ? 'oferta' : 'ofertas'} para ti
+                ✨ Encontramos las 5 mejores ofertas para ti
               </h2>
               
               <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
@@ -149,14 +149,20 @@ export const ResultadosPage = () => {
                 </div>
               </div>
               
-              <p className="text-sm text-gray-600 mt-4">
-                💡 Te estamos mostrando las {resultado.resumen.totalOfertas} mejores opciones iniciando por la entidad que tiene la mejor tasa de interés para ti
+              <p className="text-sm text-gray-700 mt-4 bg-blue-50 border-l-4 border-blue-500 p-3 rounded">
+                <span className="inline-flex items-center gap-2">
+                  <span className="text-lg">💡</span>
+                  <span>
+                    Te estamos mostrando las <span className="font-bold text-blue-700">5 mejores opciones</span>, 
+                    iniciando por la entidad que tiene la <span className="font-bold text-green-600">✨ mejor tasa de interés</span> para ti 🎯
+                  </span>
+                </span>
               </p>
             </div>
             
-            {/* Lista de ofertas */}
+            {/* Lista de ofertas - Solo las 5 mejores */}
             <div className="space-y-4">
-              {resultado.ofertas.map((oferta) => (
+              {resultado.ofertas.slice(0, 5).map((oferta) => (
                 <OfertaCard 
                   key={oferta.id} 
                   oferta={oferta}
