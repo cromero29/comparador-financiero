@@ -21,6 +21,20 @@ export const OfertaCard = ({ oferta, montoSolicitado, onClickSolicitar }: Oferta
   const rankingColor = RANKING_COLORS[oferta.ranking.posicion as 1 | 2 | 3] || RANKING_COLORS.default;
   const icon = ENTIDAD_ICONS[oferta.entidad.nombre.toUpperCase().replace(/\s/g, '_')] || '🏦';
   
+  // Color del logo según tipo de entidad
+  const getLogoGradient = () => {
+    switch (oferta.entidad.tipo) {
+      case 'BANCO':
+        return 'from-blue-500 to-blue-600';
+      case 'FINTECH':
+        return 'from-purple-500 to-purple-600';
+      case 'COOPERATIVA':
+        return 'from-green-500 to-green-600';
+      default:
+        return 'from-gray-500 to-gray-600';
+    }
+  };
+  
   const handleSolicitar = async () => {
     setIsRedirecting(true);
     
@@ -55,16 +69,21 @@ export const OfertaCard = ({ oferta, montoSolicitado, onClickSolicitar }: Oferta
         <div className="flex items-start justify-between">
           <div className="flex items-center gap-3">
             {oferta.entidad.logo && !logoError ? (
-              <div className="flex-shrink-0 w-16 h-16 flex items-center justify-center bg-white rounded-lg border border-gray-200 p-2">
+              <div className={`flex-shrink-0 w-16 h-16 flex items-center justify-center bg-gradient-to-br ${getLogoGradient()} rounded-lg shadow-sm`}>
                 <img 
                   src={oferta.entidad.logo} 
                   alt={oferta.entidad.nombre}
                   className="max-h-12 max-w-full object-contain"
                   onError={() => setLogoError(true)}
+                  crossOrigin="anonymous"
                 />
               </div>
             ) : (
-              <span className="text-4xl">{icon}</span>
+              <div className={`flex-shrink-0 w-16 h-16 flex items-center justify-center bg-gradient-to-br ${getLogoGradient()} rounded-lg shadow-sm`}>
+                <span className="text-2xl font-bold text-white">
+                  {oferta.entidad.nombre.substring(0, 2).toUpperCase()}
+                </span>
+              </div>
             )}
             <div>
               <CardTitle className="text-lg">{oferta.entidad.nombre}</CardTitle>
