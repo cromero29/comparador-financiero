@@ -173,8 +173,8 @@ async function main() {
       requiereCuentaNomina: false,
       aceptaIndependientes: true,
       aceptaPensionados: true,
-      urlInformacion: 'https://www.davivienda.com/personas/credito/libre-inversion',
-      urlSolicitud: 'https://www.davivienda.com/personas/credito/libre-inversion/solicitar',
+      urlInformacion: 'https://www.davivienda.com/wps/portal/personas/productos-personas/creditos/credito-libre-inversion',
+      urlSolicitud: 'https://www.davivienda.com/wps/portal/personas/nuevo',
       activo: true,
       verificado: false
     }
@@ -204,8 +204,8 @@ async function main() {
       requiereCuentaNomina: false,
       aceptaIndependientes: true,
       aceptaPensionados: false,
-      urlInformacion: 'https://www.rappipay.com/prestamos',
-      urlSolicitud: 'https://www.rappipay.com/prestamos/solicitar',
+      urlInformacion: 'https://www.rappipay.com/co',
+      urlSolicitud: 'https://www.rappipay.com/co',
       activo: true,
       verificado: false
     }
@@ -236,7 +236,7 @@ async function main() {
       aceptaIndependientes: true,
       aceptaPensionados: true,
       urlInformacion: 'https://www.bancolombia.com/personas/creditos/compra-cartera',
-      urlSolicitud: 'https://www.bancolombia.com/personas/creditos/compra-cartera/solicitud',
+      urlSolicitud: 'https://www.bancolombia.com/personas/creditos/compra-cartera',
       activo: true,
       verificado: false
     }
@@ -266,8 +266,8 @@ async function main() {
       requiereCuentaNomina: false,
       aceptaIndependientes: true,
       aceptaPensionados: true,
-      urlInformacion: 'https://www.davivienda.com/personas/credito/compra-cartera',
-      urlSolicitud: 'https://www.davivienda.com/personas/credito/compra-cartera/solicitar',
+      urlInformacion: 'https://www.davivienda.com/wps/portal/personas/productos-personas/creditos/compra-cartera',
+      urlSolicitud: 'https://www.davivienda.com/wps/portal/personas/nuevo',
       activo: true,
       verificado: false
     }
@@ -300,7 +300,7 @@ async function main() {
       aceptaIndependientes: true,
       aceptaPensionados: true,
       urlInformacion: 'https://www.bbva.com.co/personas/productos/prestamos/prestamo-personal.html',
-      urlSolicitud: 'https://www.bbva.com.co/personas/productos/prestamos/prestamo-personal/solicitar.html',
+      urlSolicitud: 'https://www.bbva.com.co/personas/productos/prestamos/prestamo-personal.html',
       activo: true,
       verificado: false
     }
@@ -330,8 +330,8 @@ async function main() {
       requiereCuentaNomina: false,
       aceptaIndependientes: true,
       aceptaPensionados: true,
-      urlInformacion: 'https://www.bancodebogota.com/personas/creditos/credito-personal',
-      urlSolicitud: 'https://www.bancodebogota.com/personas/creditos/credito-personal/solicitar',
+      urlInformacion: 'https://www.bancodebogota.com/wps/portal/banco-de-bogota/bogota/productos/para-ti/creditos/credito-consumo',
+      urlSolicitud: 'https://www.bancodebogota.com/wps/portal/banco-de-bogota/bogota/productos/para-ti/creditos/credito-consumo',
       activo: true,
       verificado: false
     }
@@ -361,8 +361,8 @@ async function main() {
       requiereCuentaNomina: false,
       aceptaIndependientes: true,
       aceptaPensionados: false,
-      urlInformacion: 'https://www.addi.com/credito',
-      urlSolicitud: 'https://www.addi.com/credito/solicitar',
+      urlInformacion: 'https://www.addi.com/co',
+      urlSolicitud: 'https://www.addi.com/co',
       activo: true,
       verificado: false
     }
@@ -392,8 +392,8 @@ async function main() {
       requiereCuentaNomina: false,
       aceptaIndependientes: true,
       aceptaPensionados: false,
-      urlInformacion: 'https://www.lineru.com/prestamos',
-      urlSolicitud: 'https://www.lineru.com/prestamos/solicitar',
+      urlInformacion: 'https://www.lineru.co',
+      urlSolicitud: 'https://www.lineru.co',
       activo: true,
       verificado: false
     }
@@ -423,8 +423,8 @@ async function main() {
       requiereCuentaNomina: false,
       aceptaIndependientes: true,
       aceptaPensionados: true,
-      urlInformacion: 'https://www.coofinep.com.co/creditos/libre-destinacion',
-      urlSolicitud: 'https://www.coofinep.com.co/creditos/libre-destinacion/solicitar',
+      urlInformacion: 'https://www.coofinep.com.co/creditos',
+      urlSolicitud: 'https://www.coofinep.com.co/creditos',
       activo: true,
       verificado: false
     }
@@ -454,8 +454,8 @@ async function main() {
       requiereCuentaNomina: false,
       aceptaIndependientes: true,
       aceptaPensionados: true,
-      urlInformacion: 'https://www.bbva.com.co/personas/productos/prestamos/compra-cartera.html',
-      urlSolicitud: 'https://www.bbva.com.co/personas/productos/prestamos/compra-cartera/solicitar.html',
+      urlInformacion: 'https://www.bbva.com.co/personas/productos/prestamos/consolidacion-deudas.html',
+      urlSolicitud: 'https://www.bbva.com.co/personas/productos/prestamos/consolidacion-deudas.html',
       activo: true,
       verificado: false
     }
@@ -485,8 +485,8 @@ async function main() {
       requiereCuentaNomina: false,
       aceptaIndependientes: true,
       aceptaPensionados: true,
-      urlInformacion: 'https://www.bancodebogota.com/personas/creditos/compra-cartera',
-      urlSolicitud: 'https://www.bancodebogota.com/personas/creditos/compra-cartera/solicitar',
+      urlInformacion: 'https://www.bancodebogota.com/wps/portal/banco-de-bogota/bogota/productos/para-ti/creditos/credito-consumo',
+      urlSolicitud: 'https://www.bancodebogota.com/wps/portal/banco-de-bogota/bogota/productos/para-ti/creditos/credito-consumo',
       activo: true,
       verificado: false
     }
