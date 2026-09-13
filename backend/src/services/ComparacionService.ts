@@ -107,6 +107,7 @@ export class ComparacionService {
         id: producto.id,
         entidad: {
           id: producto.entidad.id,
+          codigo: producto.entidad.codigo,
           nombre: producto.entidad.nombre,
           logo: producto.entidad.logo,
           tipo: producto.entidad.tipo,

@@ -36,6 +36,7 @@ export interface OfertaComparada {
   id: string;
   entidad: {
     id: string;
+    codigo: string;
     nombre: string;
     logo: string | null;
     tipo: TipoEntidad;
