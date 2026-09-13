@@ -1,8 +1,16 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 60" fill="none">
-  <rect width="200" height="60" fill="white"/>
-  <!-- Texto Banco de Bogotá -->
-  <text x="10" y="32" font-family="Arial, sans-serif" font-size="15" font-weight="bold" fill="#003DA5">Banco de Bogotá</text>
-  <!-- Figura naranja más grande -->
-  <circle cx="175" cy="30" r="16" fill="#FF6B00"/>
-  <path d="M 175 30 Q 183 22, 190 24" stroke="#FFCC00" stroke-width="7" fill="none" stroke-linecap="round"/>
+  <rect width="200" height="60" fill="#003F87"/>
+  
+  <!-- Texto Banco de Bogotá en blanco -->
+  <text x="15" y="38" font-family="Arial, sans-serif" font-size="20" font-weight="bold" fill="#FFFFFF">Banco de Bogotá</text>
+  
+  <!-- Figura característica (pajarito) -->
+  <g transform="translate(168, 18)">
+    <!-- Círculo rojo exterior -->
+    <circle cx="12" cy="12" r="12" fill="#E63946"/>
+    <!-- Forma amarilla interior -->
+    <path d="M 8 8 Q 12 4, 16 8 Q 20 12, 16 16 Q 12 20, 8 16 Q 4 12, 8 8 Z" fill="#FFD60A"/>
+    <!-- Detalle azul pequeño -->
+    <circle cx="12" cy="12" r="4" fill="#003F87"/>
+  </g>
 </svg>

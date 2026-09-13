@@ -1,9 +1,16 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 60" fill="none">
   <rect width="200" height="60" fill="white"/>
-  <!-- Texto Bancolombia más grande -->
-  <text x="10" y="32" font-family="Arial, sans-serif" font-size="16" font-weight="bold" fill="#003DA5">Bancolombia</text>
-  <!-- Líneas características más gruesas -->
-  <rect x="10" y="40" width="35" height="4" fill="#FFDD00"/>
-  <rect x="48" y="40" width="35" height="4" fill="#ED1C24"/>
-  <rect x="86" y="40" width="35" height="4" fill="#009B3A"/>
+  
+  <!-- Texto Bancolombia en azul -->
+  <text x="10" y="38" font-family="Arial, sans-serif" font-size="22" font-weight="bold" fill="#003DA5">Bancolombia</text>
+  
+  <!-- Figura característica (3 líneas inclinadas) -->
+  <g transform="translate(165, 15)">
+    <!-- Línea azul -->
+    <path d="M 0 0 L 22 0 L 26 8 L 4 8 Z" fill="#003DA5"/>
+    <!-- Línea amarilla -->
+    <path d="M 2 10 L 24 10 L 28 18 L 6 18 Z" fill="#FFDD00"/>
+    <!-- Línea roja -->
+    <path d="M 4 20 L 26 20 L 30 28 L 8 28 Z" fill="#ED1C24"/>
+  </g>
 </svg>
