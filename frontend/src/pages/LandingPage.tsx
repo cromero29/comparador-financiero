@@ -1,6 +1,6 @@
 import { useNavigate } from 'react-router-dom';
 import { ComparacionForm } from '@components/ComparacionForm';
-import { ComparacionFormData } from '@types/index';
+import { ComparacionFormData } from '../types';
 import { trackEvento } from '@services/api';
 import { TEXTOS } from '@config/constants';
 

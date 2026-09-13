@@ -6,7 +6,7 @@ import { Input } from './ui/Input';
 import { Select } from './ui/Select';
 import { Button } from './ui/Button';
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from './ui/Card';
-import { TipoProducto, TipoEmpleo, ComparacionFormData } from '@types/index';
+import { TipoProducto, TipoEmpleo, ComparacionFormData } from '../types';
 import { RANGOS, DEFAULTS, TEXTOS } from '@config/constants';
 import { formatCurrency, formatNumber } from '@utils/format';
 

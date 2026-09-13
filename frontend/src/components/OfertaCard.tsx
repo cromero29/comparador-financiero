@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { Card, CardHeader, CardTitle, CardContent, CardFooter } from './ui/Card';
 import { Button } from './ui/Button';
 import { Badge } from './ui/Badge';
-import { OfertaComparada } from '@types/index';
+import { OfertaComparada } from '../types';
 import { formatCurrency, formatPercentage } from '@utils/format';
 import { RANKING_COLORS, ENTIDAD_ICONS } from '@config/constants';
 import { trackClic } from '@services/api';
@@ -27,7 +27,7 @@ export const OfertaCard = ({ oferta, onClickSolicitar }: OfertaCardProps) => {
       const response = await trackClic({
         productoId: oferta.id,
         posicion: oferta.ranking.posicion,
-        montoSolicitado: oferta.parametrosBusqueda?.montoSolicitado || 0,
+        montoSolicitado: 0, // No disponible en la oferta
         plazoMeses: oferta.condiciones.plazoMeses,
         tipoProducto: oferta.producto.tipo,
       });

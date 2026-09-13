@@ -9,10 +9,6 @@
 
 /* Base styles */
 @layer base {
-  * {
-    @apply border-border;
-  }
-  
   body {
     @apply bg-gray-50 text-gray-900 font-sans antialiased;
   }
@@ -85,7 +81,7 @@
   }
   
   .error-text {
-    @apply text-sm text-danger-600 mt-1;
+    @apply text-sm text-red-600 mt-1;
   }
   
   .badge {
@@ -93,19 +89,19 @@
   }
   
   .badge-success {
-    @apply badge bg-success-100 text-success-800;
+    @apply badge bg-green-100 text-green-800;
   }
   
   .badge-warning {
-    @apply badge bg-warning-100 text-warning-800;
+    @apply badge bg-yellow-100 text-yellow-800;
   }
   
   .badge-danger {
-    @apply badge bg-danger-100 text-danger-800;
+    @apply badge bg-red-100 text-red-800;
   }
   
   .badge-primary {
-    @apply badge bg-primary-100 text-primary-800;
+    @apply badge bg-blue-100 text-blue-800;
   }
 }
 
@@ -167,5 +163,5 @@ input[type='number'] {
 
 /* Focus visible only para teclado */
 .focus-visible:focus-visible {
-  @apply ring-2 ring-primary-500 ring-offset-2;
+  @apply ring-2 ring-blue-500 ring-offset-2;
 }

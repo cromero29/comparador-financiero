@@ -14,7 +14,7 @@ export interface ComparacionRequest {
 }
 
 export interface CompraCarteraRequest extends ComparacionRequest {
-  tipoProducto: TipoProducto.COMPRA_CARTERA;
+  tipoProducto: 'COMPRA_CARTERA';
   deudaActual: number;
   cuotaActual: number;
   tasaActual: number;

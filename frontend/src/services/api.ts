@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { API_URL } from '@config/constants';
-import { ApiResponse, ComparacionFormData, ResultadoComparacion } from '@types/index';
+import { ApiResponse, ComparacionFormData, ResultadoComparacion } from '../types';
 
 // Configurar axios
 const api = axios.create({

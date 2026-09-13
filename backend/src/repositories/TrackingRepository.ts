@@ -131,7 +131,7 @@ export class TrackingRepository {
       totalClics: result._count.id,
       ingresoTotal: result._sum.costoClic || 0,
       clicPromedio: result._count.id > 0 
-        ? (result._sum.costoClic || 0) / result._count.id 
+        ? (Number(result._sum.costoClic) || 0) / result._count.id 
         : 0,
     };
   }

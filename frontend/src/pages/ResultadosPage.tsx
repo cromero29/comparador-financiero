@@ -4,7 +4,7 @@ import { useMutation } from '@tanstack/react-query';
 import { OfertaCard } from '@components/OfertaCard';
 import { Button } from '@components/ui/Button';
 import { Loading, CardSkeleton } from '@components/ui/Loading';
-import { ComparacionFormData, ResultadoComparacion } from '@types/index';
+import { ComparacionFormData, ResultadoComparacion } from '../types';
 import { compararOfertas, trackEvento } from '@services/api';
 import { formatCurrency, formatPercentage } from '@utils/format';
 import { TEXTOS } from '@config/constants';
