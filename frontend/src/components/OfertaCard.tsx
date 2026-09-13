@@ -9,10 +9,11 @@ import { trackClic } from '@services/api';
 
 interface OfertaCardProps {
   oferta: OfertaComparada;
+  montoSolicitado: number;
   onClickSolicitar?: (oferta: OfertaComparada) => void;
 }
 
-export const OfertaCard = ({ oferta, onClickSolicitar }: OfertaCardProps) => {
+export const OfertaCard = ({ oferta, montoSolicitado, onClickSolicitar }: OfertaCardProps) => {
   const [showDetails, setShowDetails] = useState(false);
   const [isRedirecting, setIsRedirecting] = useState(false);
   const [logoError, setLogoError] = useState(false);
@@ -28,7 +29,7 @@ export const OfertaCard = ({ oferta, onClickSolicitar }: OfertaCardProps) => {
       const response = await trackClic({
         productoId: oferta.id,
         posicion: oferta.ranking.posicion,
-        montoSolicitado: 0, // No disponible en la oferta
+        montoSolicitado: montoSolicitado,
         plazoMeses: oferta.condiciones.plazoMeses,
         tipoProducto: oferta.producto.tipo,
       });

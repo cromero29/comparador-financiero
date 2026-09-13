@@ -141,16 +141,19 @@ export const ComparacionForm = ({ onSubmit, isLoading = false }: ComparacionForm
           
           {/* Plazo */}
           <div>
-            <Input
-              type="number"
+            <Select
               label="Plazo (meses)"
-              placeholder="Ejemplo: 36"
               {...register('plazoMeses', { valueAsNumber: true })}
               error={errors.plazoMeses?.message}
+              options={[
+                { value: 6, label: '6 meses' },
+                { value: 12, label: '12 meses (1 año)' },
+                { value: 24, label: '24 meses (2 años)' },
+                { value: 36, label: '36 meses (3 años)' },
+                { value: 48, label: '48 meses (4 años)' },
+                { value: 60, label: '60 meses (5 años)' },
+              ]}
             />
-            <p className="text-sm text-gray-600 mt-2">
-              📅 {plazoMeses} meses ({Math.floor((plazoMeses || 0) / 12)} años)
-            </p>
           </div>
           
           {/* Ingresos mensuales */}

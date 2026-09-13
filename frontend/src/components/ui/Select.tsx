@@ -4,7 +4,7 @@ import { cn } from '@utils/helpers';
 interface SelectProps extends SelectHTMLAttributes<HTMLSelectElement> {
   label?: string;
   error?: string;
-  options: Array<{ value: string; label: string }>;
+  options: Array<{ value: string | number; label: string }>;
 }
 
 export const Select = forwardRef<HTMLSelectElement, SelectProps>(

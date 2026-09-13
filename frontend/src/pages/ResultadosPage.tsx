@@ -157,7 +157,11 @@ export const ResultadosPage = () => {
             {/* Lista de ofertas */}
             <div className="space-y-4">
               {resultado.ofertas.map((oferta) => (
-                <OfertaCard key={oferta.id} oferta={oferta} />
+                <OfertaCard 
+                  key={oferta.id} 
+                  oferta={oferta}
+                  montoSolicitado={formData.montoSolicitado}
+                />
               ))}
             </div>
             
