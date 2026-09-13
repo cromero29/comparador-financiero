@@ -1,0 +1,234 @@
+// Prisma Schema para Comparador Financiero MVP
+// Base de datos: PostgreSQL
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// ============================================
+// ENTIDADES FINANCIERAS
+// ============================================
+
+model EntidadFinanciera {
+  id        String   @id @default(uuid())
+  codigo    String   @unique // BANCOLOMBIA, DAVIVIENDA, etc.
+  nombre    String
+  tipo      TipoEntidad
+  logo      String?
+  sitioWeb  String
+  activa    Boolean  @default(true)
+  
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  
+  // Relaciones
+  productos       Producto[]
+  scrapersConfigs ScraperConfig[]
+  
+  @@map("entidades_financieras")
+}
+
+enum TipoEntidad {
+  BANCO
+  FINTECH
+  COOPERATIVA
+  OTRA
+}
+
+// ============================================
+// PRODUCTOS FINANCIEROS
+// ============================================
+
+model Producto {
+  id          String   @id @default(uuid())
+  entidadId   String
+  
+  // Información básica
+  nombre      String
+  tipo        TipoProducto
+  descripcion String?
+  
+  // Condiciones financieras
+  tasaNominalMensual Decimal  @db.Decimal(10, 4) // 1.50%
+  tasaNominalAnual   Decimal  @db.Decimal(10, 4) // 18.00%
+  tasaEfectivaAnual  Decimal  @db.Decimal(10, 4) // 19.56%
+  
+  // Rangos
+  montoMinimo    Decimal  @db.Decimal(15, 2) // 1,000,000
+  montoMaximo    Decimal  @db.Decimal(15, 2) // 100,000,000
+  plazoMinimoMeses Int    // 6
+  plazoMaximoMeses Int    // 84
+  
+  // Costos adicionales
+  costoEstudio        Decimal @db.Decimal(15, 2) @default(0)
+  costoAdministracion Decimal @db.Decimal(10, 4) @default(0) // % mensual
+  seguroVida          Decimal @db.Decimal(10, 4) @default(0) // % mensual
+  seguroDesempleo     Decimal @db.Decimal(10, 4) @default(0) // % mensual
+  
+  // Requisitos
+  edadMinima      Int     @default(18)
+  edadMaxima      Int     @default(75)
+  ingresoMinimo   Decimal @db.Decimal(15, 2)
+  
+  requiereCuentaNomina  Boolean @default(false)
+  aceptaIndependientes  Boolean @default(true)
+  aceptaPensionados     Boolean @default(true)
+  
+  // URLs
+  urlInformacion String
+  urlSolicitud   String
+  
+  // Estado
+  activo      Boolean  @default(true)
+  verificado  Boolean  @default(false) // Verificado por scraping
+  
+  // Timestamps
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  
+  // Relaciones
+  entidad     EntidadFinanciera @relation(fields: [entidadId], references: [id])
+  
+  @@index([entidadId])
+  @@index([tipo, activo])
+  @@index([montoMinimo, montoMaximo])
+  @@map("productos")
+}
+
+enum TipoProducto {
+  LIBRE_INVERSION
+  COMPRA_CARTERA
+}
+
+// ============================================
+// WEB SCRAPING
+// ============================================
+
+model ScraperConfig {
+  id          String   @id @default(uuid())
+  entidadId   String
+  tipo        TipoProducto
+  
+  // Configuración del scraper
+  url         String
+  estrategia  EstrategiaScrap // static o dynamic
+  
+  // Selectores CSS (JSON)
+  selectores  Json // { tasaMensual: '.tasa', monto: '.monto', ... }
+  
+  // Configuración avanzada
+  waitForSelector String? // Selector para esperar antes de scrapear
+  timeout         Int     @default(30000) // ms
+  
+  // Estado
+  activo      Boolean  @default(true)
+  
+  // Timestamps
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  
+  // Relaciones
+  entidad     EntidadFinanciera @relation(fields: [entidadId], references: [id])
+  logs        ScrapingLog[]
+  
+  @@unique([entidadId, tipo])
+  @@index([entidadId])
+  @@map("scraper_configs")
+}
+
+enum EstrategiaScrap {
+  STATIC   // Cheerio (HTML estático)
+  DYNAMIC  // Puppeteer (JavaScript)
+}
+
+model ScrapingLog {
+  id              String   @id @default(uuid())
+  scraperConfigId String
+  
+  // Resultado
+  exitoso         Boolean
+  productosEncontrados Int  @default(0)
+  
+  // Errores
+  error           String?  @db.Text
+  
+  // Metadata
+  duracionMs      Int
+  
+  // Timestamp
+  fecha           DateTime @default(now())
+  
+  // Relaciones
+  scraperConfig   ScraperConfig @relation(fields: [scraperConfigId], references: [id])
+  
+  @@index([scraperConfigId, fecha])
+  @@index([fecha])
+  @@map("scraping_logs")
+}
+
+// ============================================
+// TRACKING (Preparado para monetización)
+// ============================================
+
+model EventoTracking {
+  id          String   @id @default(uuid())
+  
+  // Session
+  sessionId   String
+  
+  // Evento
+  tipoEvento  String   // form_complete, offer_click, etc.
+  categoria   String
+  accion      String
+  
+  // Metadata (JSON flexible)
+  metadata    Json
+  
+  // Contexto
+  url         String
+  dispositivo String
+  navegador   String
+  
+  // Origen (UTM)
+  utmSource   String?
+  utmMedium   String?
+  utmCampaign String?
+  
+  // Timestamp
+  fecha       DateTime @default(now())
+  
+  @@index([sessionId, fecha])
+  @@index([tipoEvento, fecha])
+  @@map("eventos_tracking")
+}
+
+model ClicTracking {
+  id                  String   @id @default(uuid())
+  
+  sessionId           String
+  productoId          String
+  entidadId           String
+  
+  posicion            Int
+  montoSolicitado     Decimal  @db.Decimal(15, 2)
+  plazoMeses          Int
+  tipoProducto        TipoProducto
+  
+  // Valor del clic (preparado para CPC)
+  costoClic           Decimal  @db.Decimal(10, 2) @default(0)
+  
+  redireccionExitosa  Boolean
+  urlDestino          String
+  
+  fecha               DateTime @default(now())
+  
+  @@index([productoId, fecha])
+  @@index([entidadId, fecha])
+  @@index([sessionId])
+  @@map("clics_tracking")
+}
