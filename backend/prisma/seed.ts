@@ -28,7 +28,7 @@ async function main() {
       nombre: 'Bancolombia',
       tipo: TipoEntidad.BANCO,
       sitioWeb: 'https://www.bancolombia.com',
-      logo: 'https://www.bancolombia.com/wcm/connect/www.bancolombia.com-16740/4b4e1a49-f62c-4b82-8f72-00a5a61cab41/logo-bancolombia-desktop.svg',
+      logo: 'https://logodownload.org/wp-content/uploads/2020/04/bancolombia-logo.png',
       activa: true
     }
   });
@@ -39,7 +39,7 @@ async function main() {
       nombre: 'Banco Davivienda',
       tipo: TipoEntidad.BANCO,
       sitioWeb: 'https://www.davivienda.com',
-      logo: 'https://www.davivienda.com/wps/themes/theme_personas/images/logo.svg',
+      logo: 'https://seeklogo.com/images/D/davivienda-logo-D57FA39C5F-seeklogo.com.png',
       activa: true
     }
   });
@@ -50,7 +50,7 @@ async function main() {
       nombre: 'BBVA Colombia',
       tipo: TipoEntidad.BANCO,
       sitioWeb: 'https://www.bbva.com.co',
-      logo: 'https://www.bbva.com.co/content/dam/public-web/global/images/logos/logo_bbva_blanco.svg',
+      logo: 'https://seeklogo.com/images/B/bbva-logo-1B965961B2-seeklogo.com.png',
       activa: true
     }
   });
@@ -61,7 +61,7 @@ async function main() {
       nombre: 'Banco de Bogotá',
       tipo: TipoEntidad.BANCO,
       sitioWeb: 'https://www.bancodebogota.com',
-      logo: 'https://www.bancodebogota.com/wps/themes/BancodeBogotaTheme/assets/img/logo-banco-de-bogota.svg',
+      logo: 'https://seeklogo.com/images/B/banco-de-bogota-logo-F03788B3F1-seeklogo.com.png',
       activa: true
     }
   });
@@ -72,7 +72,7 @@ async function main() {
       nombre: 'RappiPay',
       tipo: TipoEntidad.FINTECH,
       sitioWeb: 'https://www.rappipay.com',
-      logo: 'https://images.rappi.com/web/rappipay-logo.svg',
+      logo: 'https://seeklogo.com/images/R/rappi-logo-29899BA206-seeklogo.com.png',
       activa: true
     }
   });
@@ -83,7 +83,7 @@ async function main() {
       nombre: 'Addi',
       tipo: TipoEntidad.FINTECH,
       sitioWeb: 'https://www.addi.com',
-      logo: 'https://cdn.addi.com/assets/logo-addi.svg',
+      logo: 'https://media.licdn.com/dms/image/v2/C4E0BAQH8wH9FnYGxvA/company-logo_200_200/company-logo_200_200/0/1630572688357/addi_logo?e=2147483647&v=beta&t=HN1XN6vBcVB8Ksx9rPFJzI5_Bj1fKQZ_xLqKq5qr7kU',
       activa: true
     }
   });
@@ -94,7 +94,7 @@ async function main() {
       nombre: 'Lineru',
       tipo: TipoEntidad.FINTECH,
       sitioWeb: 'https://www.lineru.com',
-      logo: 'https://www.lineru.com/static/media/logo-lineru.svg',
+      logo: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT5YZqN8vQ0Yl8KHnZCY6rKJv5xYZ6sXZ6qrw&s',
       activa: true
     }
   });
@@ -105,7 +105,7 @@ async function main() {
       nombre: 'Coofinep',
       tipo: TipoEntidad.COOPERATIVA,
       sitioWeb: 'https://www.coofinep.com.co',
-      logo: 'https://www.coofinep.com.co/wp-content/themes/coofinep/img/logo.png',
+      logo: 'https://www.coofinep.com.co/wp-content/uploads/2023/01/logo-coofinep-2023.png',
       activa: true
     }
   });

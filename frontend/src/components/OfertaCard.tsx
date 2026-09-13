@@ -55,12 +55,14 @@ export const OfertaCard = ({ oferta, montoSolicitado, onClickSolicitar }: Oferta
         <div className="flex items-start justify-between">
           <div className="flex items-center gap-3">
             {oferta.entidad.logo && !logoError ? (
-              <img 
-                src={oferta.entidad.logo} 
-                alt={oferta.entidad.nombre}
-                className="h-12 w-auto object-contain"
-                onError={() => setLogoError(true)}
-              />
+              <div className="flex-shrink-0 w-16 h-16 flex items-center justify-center bg-white rounded-lg border border-gray-200 p-2">
+                <img 
+                  src={oferta.entidad.logo} 
+                  alt={oferta.entidad.nombre}
+                  className="max-h-12 max-w-full object-contain"
+                  onError={() => setLogoError(true)}
+                />
+              </div>
             ) : (
               <span className="text-4xl">{icon}</span>
             )}
