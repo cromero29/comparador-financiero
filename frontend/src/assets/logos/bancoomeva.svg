@@ -1,8 +1,8 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 80" fill="none">
-  <rect width="200" height="80" fill="white"/>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 140 60" fill="none">
+  <rect width="140" height="60" fill="white"/>
   <!-- Símbolo de flechas/triángulos -->
-  <path d="M 20 45 L 30 30 L 40 45 Z" fill="#00A651"/>
-  <path d="M 22 47 L 32 32 L 42 47 Z" fill="#E30613"/>
+  <path d="M 10 35 L 18 22 L 26 35 Z" fill="#00A651"/>
+  <path d="M 11.5 36.5 L 19.5 23.5 L 27.5 36.5 Z" fill="#E30613"/>
   <!-- Texto -->
-  <text x="50" y="50" font-family="Arial, sans-serif" font-size="28" font-weight="bold" fill="#00A651">Bancoomeva</text>
+  <text x="35" y="36" font-family="Arial, sans-serif" font-size="18" font-weight="bold" fill="#00A651">Bancoomeva</text>
 </svg>
