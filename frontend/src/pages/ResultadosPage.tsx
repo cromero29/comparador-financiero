@@ -13,6 +13,8 @@ export const ResultadosPage = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const [resultado, setResultado] = useState<ResultadoComparacion | null>(null);
+  const [paginaActual, setPaginaActual] = useState(1);
+  const ofertasPorPagina = 5;
   
   const formData = location.state?.formData as ComparacionFormData | undefined;
   
@@ -49,6 +51,17 @@ export const ResultadosPage = () => {
     // Ejecutar comparación
     comparar(formData);
   }, [formData, navigate, comparar]);
+
+  // Calcular ofertas de la página actual
+  const indiceInicio = (paginaActual - 1) * ofertasPorPagina;
+  const indiceFin = indiceInicio + ofertasPorPagina;
+  const ofertasPaginadas = resultado?.ofertas.slice(indiceInicio, indiceFin) || [];
+  const totalPaginas = Math.ceil((resultado?.ofertas.length || 0) / ofertasPorPagina);
+
+  const handleCambioPagina = (nuevaPagina: number) => {
+    setPaginaActual(nuevaPagina);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
   
   const handleNuevaComparacion = () => {
     navigate('/');
@@ -160,9 +173,9 @@ export const ResultadosPage = () => {
               </p>
             </div>
             
-            {/* Lista de ofertas - Solo las 10 mejores */}
+            {/* Lista de ofertas - Paginadas */}
             <div className="space-y-4">
-              {resultado.ofertas.slice(0, 10).map((oferta) => (
+              {ofertasPaginadas.map((oferta) => (
                 <OfertaCard 
                   key={oferta.id} 
                   oferta={oferta}
@@ -170,6 +183,50 @@ export const ResultadosPage = () => {
                 />
               ))}
             </div>
+
+            {/* Paginación */}
+            {totalPaginas > 1 && (
+              <div className="mt-8 flex justify-center items-center gap-4">
+                <Button
+                  variant="outline"
+                  onClick={() => handleCambioPagina(paginaActual - 1)}
+                  disabled={paginaActual === 1}
+                >
+                  ← Anterior
+                </Button>
+                
+                <div className="flex gap-2">
+                  {Array.from({ length: totalPaginas }, (_, i) => i + 1).map((pagina) => (
+                    <button
+                      key={pagina}
+                      onClick={() => handleCambioPagina(pagina)}
+                      className={`px-4 py-2 rounded-lg font-medium transition-colors ${
+                        pagina === paginaActual
+                          ? 'bg-primary-600 text-white'
+                          : 'bg-white text-gray-700 hover:bg-gray-100 border border-gray-300'
+                      }`}
+                    >
+                      {pagina}
+                    </button>
+                  ))}
+                </div>
+                
+                <Button
+                  variant="outline"
+                  onClick={() => handleCambioPagina(paginaActual + 1)}
+                  disabled={paginaActual === totalPaginas}
+                >
+                  Siguiente →
+                </Button>
+              </div>
+            )}
+
+            {/* Info de paginación */}
+            {resultado.ofertas.length > ofertasPorPagina && (
+              <div className="mt-4 text-center text-sm text-gray-600">
+                Mostrando {indiceInicio + 1} - {Math.min(indiceFin, resultado.ofertas.length)} de {resultado.ofertas.length} ofertas
+              </div>
+            )}
             
             {/* Disclaimer */}
             <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-4 mt-8">

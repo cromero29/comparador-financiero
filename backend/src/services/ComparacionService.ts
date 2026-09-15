@@ -171,7 +171,7 @@ export class ComparacionService {
     });
 
     return {
-      ofertas: ofertasRankeadas.slice(0, 5), // Top 5
+      ofertas: ofertasRankeadas.slice(0, 10), // Top 10
       resumen,
       parametrosBusqueda: params,
       fechaConsulta: new Date(),
