@@ -175,60 +175,180 @@ model ScrapingLog {
 // TRACKING (Preparado para monetización)
 // ============================================
 
+// Sesiones de usuario (agrupador principal)
+model Sesion {
+  id              String   @id @default(uuid())
+  
+  // Identificación
+  fingerprint     String?  // Huella digital del navegador
+  ipAddress       String?
+  userAgent       String?
+  
+  // Contexto geográfico
+  pais            String?
+  ciudad          String?
+  
+  // Contexto técnico
+  dispositivo     String?  // desktop, mobile, tablet
+  navegador       String?  // chrome, firefox, safari
+  sistemaOperativo String?
+  
+  // Origen de tráfico (UTM)
+  utmSource       String?
+  utmMedium       String?
+  utmCampaign     String?
+  utmContent      String?
+  utmTerm         String?
+  
+  // Referrer
+  referrer        String?
+  
+  // Timestamps
+  inicioSesion    DateTime @default(now())
+  ultimaActividad DateTime @default(now())
+  
+  // Relaciones
+  busquedas       Busqueda[]
+  clics           ClicTracking[]
+  eventos         EventoTracking[]
+  
+  @@index([fingerprint])
+  @@index([inicioSesion])
+  @@map("sesiones")
+}
+
+// Búsquedas realizadas (captura TODOS los parámetros)
+model Busqueda {
+  id                String   @id @default(uuid())
+  
+  // Relación con sesión
+  sesionId          String
+  
+  // Parámetros de búsqueda
+  tipoProducto      TipoProducto
+  montoSolicitado   Decimal  @db.Decimal(15, 2)
+  plazoMeses        Int
+  ingresos          Decimal  @db.Decimal(15, 2)
+  edad              Int
+  tipoEmpleo        String   // dependiente, independiente, pensionado
+  
+  // Parámetros adicionales (compra de cartera)
+  deudaActual       Decimal? @db.Decimal(15, 2)
+  cuotaActual       Decimal? @db.Decimal(15, 2)
+  tasaActual        Decimal? @db.Decimal(10, 4)
+  
+  // Resultados de la búsqueda
+  ofertasEncontradas Int
+  mejorTasa          Decimal  @db.Decimal(10, 4)
+  mejorCuota         Decimal  @db.Decimal(15, 2)
+  
+  // Top 3 entidades mostradas (para análisis)
+  entidad1Id        String?
+  entidad2Id        String?
+  entidad3Id        String?
+  
+  // Métricas de engagement
+  tiempoEnResultados Int?     // segundos que pasó viendo resultados
+  ofertasExpandidas  Int      @default(0) // cuántas tarjetas expandió
+  
+  // Conversión
+  generoClic        Boolean  @default(false)
+  clicsGenerados    Int      @default(0)
+  
+  // Timestamp
+  fecha             DateTime @default(now())
+  
+  // Relaciones
+  sesion            Sesion   @relation(fields: [sesionId], references: [id])
+  
+  @@index([sesionId, fecha])
+  @@index([tipoProducto, fecha])
+  @@index([montoSolicitado, plazoMeses])
+  @@index([edad, ingresos])
+  @@index([generoClic])
+  @@map("busquedas")
+}
+
 model EventoTracking {
   id          String   @id @default(uuid())
   
   // Session
-  sessionId   String
+  sesionId    String
   
   // Evento
-  tipoEvento  String   // form_complete, offer_click, etc.
-  categoria   String
-  accion      String
+  tipoEvento  String   // form_start, form_complete, offer_view, offer_expand, etc.
+  categoria   String   // busqueda, oferta, navegacion, error
+  accion      String   // click, view, expand, submit
+  etiqueta    String?  // información adicional
   
   // Metadata (JSON flexible)
-  metadata    Json
+  metadata    Json?
   
   // Contexto
-  url         String
-  dispositivo String
-  navegador   String
-  
-  // Origen (UTM)
-  utmSource   String?
-  utmMedium   String?
-  utmCampaign String?
+  url         String?
+  pathname    String?
   
   // Timestamp
   fecha       DateTime @default(now())
   
-  @@index([sessionId, fecha])
+  // Relaciones
+  sesion      Sesion   @relation(fields: [sesionId], references: [id])
+  
+  @@index([sesionId, fecha])
   @@index([tipoEvento, fecha])
+  @@index([categoria, accion])
   @@map("eventos_tracking")
 }
 
 model ClicTracking {
   id                  String   @id @default(uuid())
   
-  sessionId           String
+  // Relación con sesión y búsqueda
+  sesionId            String
+  busquedaId          String?  // Opcional por si viene de otra fuente
+  
+  // Información del producto clickeado
   productoId          String
   entidadId           String
+  entidadNombre       String   // Desnormalizado para queries rápidas
+  entidadTipo         TipoEntidad
   
-  posicion            Int
+  // Contexto del clic
+  posicion            Int      // Posición en ranking (1-10)
+  paginaResultados    Int      @default(1) // En qué página estaba (1 o 2)
+  
+  // Parámetros de la oferta clickeada
   montoSolicitado     Decimal  @db.Decimal(15, 2)
   plazoMeses          Int
   tipoProducto        TipoProducto
+  tasaOfrecida        Decimal  @db.Decimal(10, 4)
+  cuotaOfrecida       Decimal  @db.Decimal(15, 2)
   
-  // Valor del clic (preparado para CPC)
+  // Información del usuario (para segmentación)
+  edad                Int
+  ingresos            Decimal  @db.Decimal(15, 2)
+  tipoEmpleo          String
+  
+  // Monetización (preparado para CPC/CPL)
   costoClic           Decimal  @db.Decimal(10, 2) @default(0)
+  esConversion        Boolean  @default(false) // Si confirmamos que aplicó
+  valorConversion     Decimal? @db.Decimal(10, 2) // CPL
   
+  // Resultado de la redirección
   redireccionExitosa  Boolean
   urlDestino          String
   
+  // Timestamp
   fecha               DateTime @default(now())
+  
+  // Relaciones
+  sesion              Sesion   @relation(fields: [sesionId], references: [id])
   
   @@index([productoId, fecha])
   @@index([entidadId, fecha])
-  @@index([sessionId])
+  @@index([sesionId])
+  @@index([fecha])
+  @@index([tipoProducto, montoSolicitado])
+  @@index([posicion])
   @@map("clics_tracking")
 }
