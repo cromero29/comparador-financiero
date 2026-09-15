@@ -263,6 +263,156 @@ export class ReportesController {
           porcentaje: totalClics > 0 ? `${((item.clics / totalClics) * 100).toFixed(1)}%` : '0%'
         }));
 
+      // TOP 10: Segmentos más rentables (edad + ingresos con mejor conversión)
+      const segmentos: Record<string, {
+        rangoEdad: string;
+        rangoIngresos: string;
+        busquedas: number;
+        clics: number;
+        montoPromedioSolicitado: number;
+      }> = {};
+
+      for (const busqueda of busquedas) {
+        // Clasificar edad
+        let rangoEdad = '55+';
+        if (busqueda.edad < 25) rangoEdad = '18-24';
+        else if (busqueda.edad < 35) rangoEdad = '25-34';
+        else if (busqueda.edad < 45) rangoEdad = '35-44';
+        else if (busqueda.edad < 55) rangoEdad = '45-54';
+
+        // Clasificar ingresos
+        const ingresos = Number(busqueda.ingresos);
+        let rangoIngresos = '> 10M';
+        if (ingresos < 2000000) rangoIngresos = '< 2M';
+        else if (ingresos < 5000000) rangoIngresos = '2M-5M';
+        else if (ingresos < 10000000) rangoIngresos = '5M-10M';
+
+        const key = `${rangoEdad}|${rangoIngresos}`;
+
+        if (!segmentos[key]) {
+          segmentos[key] = {
+            rangoEdad,
+            rangoIngresos,
+            busquedas: 0,
+            clics: 0,
+            montoPromedioSolicitado: 0
+          };
+        }
+
+        segmentos[key].busquedas++;
+        segmentos[key].montoPromedioSolicitado += Number(busqueda.montoSolicitado);
+        if (busqueda.generoClic) {
+          segmentos[key].clics++;
+        }
+      }
+
+      const topSegmentosMasRentables = Object.values(segmentos)
+        .filter(seg => seg.busquedas >= 2) // Mínimo 2 búsquedas
+        .map(seg => ({
+          rangoEdad: seg.rangoEdad,
+          rangoIngresos: seg.rangoIngresos,
+          busquedas: seg.busquedas,
+          clics: seg.clics,
+          tasaConversion: ((seg.clics / seg.busquedas) * 100),
+          montoPromedio: seg.montoPromedioSolicitado / seg.busquedas,
+          valorEstimado: seg.clics * 50000 // Asumiendo $50K por lead
+        }))
+        .sort((a, b) => b.valorEstimado - a.valorEstimado)
+        .slice(0, 10)
+        .map((item, index) => ({
+          posicion: index + 1,
+          segmento: `${item.rangoEdad} años, ${item.rangoIngresos}`,
+          busquedas: item.busquedas,
+          clics: item.clics,
+          tasaConversion: `${item.tasaConversion.toFixed(1)}%`,
+          montoPromedio: `$${Math.round(item.montoPromedio).toLocaleString('es-CO')}`,
+          valorEstimadoCPL: `$${item.valorEstimado.toLocaleString('es-CO')}`
+        }));
+
+      // TOP 10: Rangos de monto más buscados
+      const montosPorRango: Record<string, {
+        rango: string;
+        min: number;
+        max: number;
+        busquedas: number;
+        clics: number;
+      }> = {
+        '< 5M': { rango: '< 5M', min: 0, max: 5000000, busquedas: 0, clics: 0 },
+        '5M-10M': { rango: '5M-10M', min: 5000000, max: 10000000, busquedas: 0, clics: 0 },
+        '10M-15M': { rango: '10M-15M', min: 10000000, max: 15000000, busquedas: 0, clics: 0 },
+        '15M-20M': { rango: '15M-20M', min: 15000000, max: 20000000, busquedas: 0, clics: 0 },
+        '20M-30M': { rango: '20M-30M', min: 20000000, max: 30000000, busquedas: 0, clics: 0 },
+        '30M-50M': { rango: '30M-50M', min: 30000000, max: 50000000, busquedas: 0, clics: 0 },
+        '> 50M': { rango: '> 50M', min: 50000000, max: 999999999, busquedas: 0, clics: 0 }
+      };
+
+      for (const busqueda of busquedas) {
+        const monto = Number(busqueda.montoSolicitado);
+        
+        for (const [key, datos] of Object.entries(montosPorRango)) {
+          if (monto >= datos.min && monto < datos.max) {
+            datos.busquedas++;
+            if (busqueda.generoClic) {
+              datos.clics++;
+            }
+            break;
+          }
+        }
+      }
+
+      const topRangosMontoMasBuscados = Object.values(montosPorRango)
+        .filter(r => r.busquedas > 0)
+        .sort((a, b) => b.busquedas - a.busquedas)
+        .slice(0, 10)
+        .map((item, index) => ({
+          posicion: index + 1,
+          rangoMonto: item.rango,
+          busquedas: item.busquedas,
+          clics: item.clics,
+          tasaConversion: item.busquedas > 0 ? `${((item.clics / item.busquedas) * 100).toFixed(1)}%` : '0%',
+          porcentajeBusquedas: totalBusquedas > 0 ? `${((item.busquedas / totalBusquedas) * 100).toFixed(1)}%` : '0%'
+        }));
+
+      // TOP 10: Plazos más populares
+      const plazosPorMeses: Record<number, {
+        plazo: number;
+        busquedas: number;
+        clics: number;
+        montoPromedioSolicitado: number;
+      }> = {};
+
+      for (const busqueda of busquedas) {
+        const plazo = busqueda.plazoMeses;
+        
+        if (!plazosPorMeses[plazo]) {
+          plazosPorMeses[plazo] = {
+            plazo,
+            busquedas: 0,
+            clics: 0,
+            montoPromedioSolicitado: 0
+          };
+        }
+
+        plazosPorMeses[plazo].busquedas++;
+        plazosPorMeses[plazo].montoPromedioSolicitado += Number(busqueda.montoSolicitado);
+        if (busqueda.generoClic) {
+          plazosPorMeses[plazo].clics++;
+        }
+      }
+
+      const topPlazosMasPopulares = Object.values(plazosPorMeses)
+        .sort((a, b) => b.busquedas - a.busquedas)
+        .slice(0, 10)
+        .map((item, index) => ({
+          posicion: index + 1,
+          plazo: `${item.plazo} meses`,
+          busquedas: item.busquedas,
+          clics: item.clics,
+          tasaConversion: item.busquedas > 0 ? `${((item.clics / item.busquedas) * 100).toFixed(1)}%` : '0%',
+          montoPromedio: `$${Math.round(item.montoPromedioSolicitado / item.busquedas).toLocaleString('es-CO')}`,
+          porcentajeBusquedas: totalBusquedas > 0 ? `${((item.busquedas / totalBusquedas) * 100).toFixed(1)}%` : '0%'
+        }));
+
       res.json({
         success: true,
         data: {
@@ -303,7 +453,10 @@ export class ReportesController {
             top10EntidadesMejoresTasas: topEntidadesMejoresTasas,
             top10EntidadesMasClics: topEntidadesMasClics,
             top10EntidadesMejorConversion: topEntidadesMejorConversion,
-            top10ProductosMasClics: topProductosMasClics
+            top10ProductosMasClics: topProductosMasClics,
+            top10SegmentosMasRentables: topSegmentosMasRentables,
+            top10RangosMontoMasBuscados: topRangosMontoMasBuscados,
+            top10PlazosMasPopulares: topPlazosMasPopulares
           }
         }
       });
