@@ -1,22 +1,28 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 140 60" fill="none">
   <rect width="140" height="60" fill="white"/>
-  <g transform="translate(20, 30)">
-    <!-- Letra A -->
-    <path d="M 0 5 Q 0 -8 10 -8 Q 18 -8 18 0 L 18 15 Q 18 -8 8 -8 Q -2 -8 -2 5 L -2 15 L 0 15 Z" fill="#3B6EB6"/>
-    <rect x="5" y="5" width="6" height="5" fill="white"/>
+  <g transform="translate(15, 30)">
+    <!-- Color azul de Addi -->
+    <defs>
+      <style>
+        .addi-blue { fill: #3B6EB6; }
+      </style>
+    </defs>
     
-    <!-- Letra d (primera) -->
-    <path d="M 26 -15 L 26 15 L 24 15 L 24 5 Q 24 -8 34 -8 Q 44 -8 44 5 L 44 15 L 42 15 L 42 5 Q 42 -6 34 -6 Q 26 -6 26 5 Z" fill="#3B6EB6"/>
-    <circle cx="34" cy="5" r="11" fill="#3B6EB6"/>
-    <circle cx="34" cy="5" r="8" fill="white"/>
+    <!-- Letra A (arco con hueco) -->
+    <path class="addi-blue" d="M 0,8 Q 0,-5 10,-5 Q 20,-5 20,8 L 20,18 L 14,18 L 14,8 Q 14,1 10,1 Q 6,1 6,8 L 6,18 L 0,18 Z M 6,8 L 6,12 L 14,12 L 14,8 Z"/>
     
-    <!-- Letra d (segunda) -->
-    <path d="M 52 -15 L 52 15 L 50 15 L 50 5 Q 50 -8 60 -8 Q 70 -8 70 5 L 70 15 L 68 15 L 68 5 Q 68 -6 60 -6 Q 52 -6 52 5 Z" fill="#3B6EB6"/>
-    <circle cx="60" cy="5" r="11" fill="#3B6EB6"/>
-    <circle cx="60" cy="5" r="8" fill="white"/>
+    <!-- Letra d (primera) - línea vertical + círculo -->
+    <circle class="addi-blue" cx="35" cy="8" r="10"/>
+    <circle fill="white" cx="35" cy="8" r="5"/>
+    <rect class="addi-blue" x="40" y="-10" width="6" height="28"/>
     
-    <!-- Letra i -->
-    <rect x="78" y="5" width="4" height="18" rx="2" fill="#3B6EB6"/>
-    <circle cx="80" cy="-2" r="3" fill="#3B6EB6"/>
+    <!-- Letra d (segunda) - línea vertical + círculo -->
+    <circle class="addi-blue" cx="61" cy="8" r="10"/>
+    <circle fill="white" cx="61" cy="8" r="5"/>
+    <rect class="addi-blue" x="66" y="-10" width="6" height="28"/>
+    
+    <!-- Letra i - línea vertical + punto -->
+    <rect class="addi-blue" x="82" y="0" width="6" height="18"/>
+    <circle class="addi-blue" cx="85" cy="-6" r="4"/>
   </g>
 </svg>
