@@ -1,6 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 80" fill="none">
-  <rect width="200" height="80" fill="#008B45"/>
-  <circle cx="35" cy="40" r="12" fill="white"/>
-  <circle cx="50" cy="40" r="12" fill="white"/>
-  <text x="120" y="50" font-family="Arial, sans-serif" font-size="20" font-weight="bold" fill="white" text-anchor="middle">Coomultrasan</text>
+  <rect width="200" height="80" fill="white"/>
+  <text x="10" y="35" font-family="Arial, sans-serif" font-size="26" font-weight="bold" fill="#000000" letter-spacing="-1">COOMULTRASAN</text>
+  <line x1="10" y1="45" x2="190" y2="45" stroke="#8BC34A" stroke-width="8"/>
+  <line x1="10" y1="55" x2="190" y2="55" stroke="#4CAF50" stroke-width="4"/>
 </svg>

@@ -234,7 +234,6 @@ export const ResultadosPage = () => {
               <ul className="text-sm text-yellow-800 space-y-1">
                 <li>• Los cálculos son estimados basados en información pública</li>
                 <li>• La aprobación y condiciones finales dependen de cada entidad</li>
-                <li>• Te recomendamos validar toda la información antes de solicitar</li>
                 <li>• Datos actualizados: {new Date(resultado.fechaConsulta).toLocaleDateString('es-CO')}</li>
               </ul>
             </div>

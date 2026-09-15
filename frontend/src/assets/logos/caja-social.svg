@@ -1,5 +1,22 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 80" fill="none">
-  <rect width="200" height="80" fill="#00A859"/>
-  <text x="100" y="35" font-family="Arial, sans-serif" font-size="22" font-weight="bold" fill="white" text-anchor="middle">BANCO</text>
-  <text x="100" y="55" font-family="Arial, sans-serif" font-size="18" font-weight="bold" fill="white" text-anchor="middle">CAJA SOCIAL</text>
+  <rect width="200" height="80" fill="white"/>
+  <!-- Símbolo circular con puntos (flor) -->
+  <g transform="translate(35, 40)">
+    <!-- Centro -->
+    <circle cx="0" cy="0" r="3" fill="#003A70"/>
+    <!-- Pétalos externos (azul y rojo alternados) -->
+    <circle cx="0" cy="-12" r="3.5" fill="#003A70"/>
+    <circle cx="8.5" cy="-8.5" r="3.5" fill="#E30613"/>
+    <circle cx="12" cy="0" r="3.5" fill="#003A70"/>
+    <circle cx="8.5" cy="8.5" r="3.5" fill="#E30613"/>
+    <circle cx="0" cy="12" r="3.5" fill="#003A70"/>
+    <circle cx="-8.5" cy="8.5" r="3.5" fill="#E30613"/>
+    <circle cx="-12" cy="0" r="3.5" fill="#003A70"/>
+    <circle cx="-8.5" cy="-8.5" r="3.5" fill="#E30613"/>
+  </g>
+  <!-- Texto -->
+  <text x="60" y="38" font-family="Arial, sans-serif" font-size="22" font-weight="bold" fill="#003A70">Banco</text>
+  <text x="60" y="58" font-family="Arial, sans-serif" font-size="20" font-weight="bold" fill="#003A70">Caja Social</text>
+  <line x1="60" y1="60" x2="160" y2="60" stroke="#4A9FD8" stroke-width="1.5"/>
+  <text x="60" y="70" font-family="Arial, sans-serif" font-size="10" fill="#4A9FD8">Su banco amigo.</text>
 </svg>

@@ -1,5 +1,10 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 80" fill="none">
-  <rect width="200" height="80" fill="#003D7A"/>
-  <text x="100" y="35" font-family="Arial, sans-serif" font-size="20" font-weight="bold" fill="white" text-anchor="middle">BANCO DE</text>
-  <text x="100" y="55" font-family="Arial, sans-serif" font-size="20" font-weight="bold" fill="white" text-anchor="middle">OCCIDENTE</text>
+  <rect width="200" height="80" fill="white"/>
+  <!-- Rombo/diamante azul -->
+  <path d="M 35 25 L 50 35 L 50 45 L 35 55 L 20 45 L 20 35 Z" fill="#5B9BD5" opacity="0.8"/>
+  <path d="M 35 30 L 45 37 L 45 43 L 35 50 L 25 43 L 25 37 Z" fill="#4A90E2"/>
+  <path d="M 35 35 L 40 38.5 L 40 41.5 L 35 45 L 30 41.5 L 30 38.5 Z" fill="#2E5C8A"/>
+  <!-- Texto -->
+  <text x="60" y="38" font-family="Arial, sans-serif" font-size="18" font-weight="bold" fill="#1E3A5F">Banco de</text>
+  <text x="60" y="56" font-family="Arial, sans-serif" font-size="20" font-weight="bold" fill="#5B9BD5">Occidente</text>
 </svg>
