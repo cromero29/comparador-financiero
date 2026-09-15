@@ -116,7 +116,7 @@ export const ResultadosPage = () => {
             {/* Resumen */}
             <div className="bg-white rounded-lg shadow-sm p-6 mb-8">
               <h2 className="text-2xl font-bold mb-4">
-                ✨ Encontramos las 5 mejores ofertas para ti
+                ✨ Encontramos las 10 mejores ofertas para ti
               </h2>
               
               <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
@@ -153,16 +153,16 @@ export const ResultadosPage = () => {
                 <span className="inline-flex items-center gap-2">
                   <span className="text-lg">💡</span>
                   <span>
-                    Te estamos mostrando las <span className="font-bold text-blue-700">5 mejores opciones</span>, 
+                    Te estamos mostrando las <span className="font-bold text-blue-700">10 mejores opciones</span>, 
                     iniciando por la entidad que tiene la <span className="font-bold text-green-600">✨ mejor tasa de interés</span> para ti 🎯
                   </span>
                 </span>
               </p>
             </div>
             
-            {/* Lista de ofertas - Solo las 5 mejores */}
+            {/* Lista de ofertas - Solo las 10 mejores */}
             <div className="space-y-4">
-              {resultado.ofertas.slice(0, 5).map((oferta) => (
+              {resultado.ofertas.slice(0, 10).map((oferta) => (
                 <OfertaCard 
                   key={oferta.id} 
                   oferta={oferta}

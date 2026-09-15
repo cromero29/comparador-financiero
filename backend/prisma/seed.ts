@@ -110,7 +110,73 @@ async function main() {
     }
   });
 
-  console.log(`✅ ${8} entidades creadas`);
+  const cajaSocial = await prisma.entidadFinanciera.create({
+    data: {
+      codigo: 'CAJA_SOCIAL',
+      nombre: 'Banco Caja Social',
+      tipo: TipoEntidad.BANCO,
+      sitioWeb: 'https://www.bancocajasocial.com',
+      logo: 'https://seeklogo.com/images/B/banco-caja-social-logo-9C0B3E4F5E-seeklogo.com.png',
+      activa: true
+    }
+  });
+
+  const popular = await prisma.entidadFinanciera.create({
+    data: {
+      codigo: 'POPULAR',
+      nombre: 'Banco Popular',
+      tipo: TipoEntidad.BANCO,
+      sitioWeb: 'https://www.bancopopular.com.co',
+      logo: 'https://seeklogo.com/images/B/banco-popular-logo-F1E8E0C8F5-seeklogo.com.png',
+      activa: true
+    }
+  });
+
+  const itau = await prisma.entidadFinanciera.create({
+    data: {
+      codigo: 'ITAU',
+      nombre: 'Itaú',
+      tipo: TipoEntidad.BANCO,
+      sitioWeb: 'https://www.itau.co',
+      logo: 'https://seeklogo.com/images/I/itau-logo-D6F5B6F5E3-seeklogo.com.png',
+      activa: true
+    }
+  });
+
+  const bancoomeva = await prisma.entidadFinanciera.create({
+    data: {
+      codigo: 'BANCOOMEVA',
+      nombre: 'Bancoomeva',
+      tipo: TipoEntidad.BANCO,
+      sitioWeb: 'https://www.bancoomeva.com.co',
+      logo: 'https://seeklogo.com/images/B/bancoomeva-logo-F1E8E0C8F5-seeklogo.com.png',
+      activa: true
+    }
+  });
+
+  const occidente = await prisma.entidadFinanciera.create({
+    data: {
+      codigo: 'OCCIDENTE',
+      nombre: 'Banco de Occidente',
+      tipo: TipoEntidad.BANCO,
+      sitioWeb: 'https://www.bancodeoccidente.com.co',
+      logo: 'https://seeklogo.com/images/B/banco-de-occidente-logo-E3E8E0C8F5-seeklogo.com.png',
+      activa: true
+    }
+  });
+
+  const coomultrasan = await prisma.entidadFinanciera.create({
+    data: {
+      codigo: 'COOMULTRASAN',
+      nombre: 'Coomultrasan',
+      tipo: TipoEntidad.COOPERATIVA,
+      sitioWeb: 'https://www.coomultrasan.com.co',
+      logo: 'https://www.coomultrasan.com.co/wp-content/uploads/2020/01/logo-coomultrasan.png',
+      activa: true
+    }
+  });
+
+  console.log(`✅ ${14} entidades creadas`);
 
   // ============================================
   // PRODUCTOS DE EJEMPLO (seed inicial)
@@ -492,7 +558,255 @@ async function main() {
     }
   });
 
-  console.log(`✅ ${12} productos totales creados (5 iniciales + 7 adicionales)`);
+  // Banco Caja Social - Libre Inversión
+  await prisma.producto.create({
+    data: {
+      entidadId: cajaSocial.id,
+      nombre: 'Crédito de Libre Inversión Caja Social',
+      tipo: TipoProducto.LIBRE_INVERSION,
+      descripcion: 'Préstamo personal con tasas competitivas',
+      tasaNominalMensual: 1.72,
+      tasaNominalAnual: 20.64,
+      tasaEfectivaAnual: 22.78,
+      montoMinimo: 1000000,
+      montoMaximo: 70000000,
+      plazoMinimoMeses: 12,
+      plazoMaximoMeses: 60,
+      costoEstudio: 42000,
+      costoAdministracion: 0.48,
+      seguroVida: 0.12,
+      seguroDesempleo: 0.04,
+      edadMinima: 18,
+      edadMaxima: 70,
+      ingresoMinimo: 1800000,
+      requiereCuentaNomina: false,
+      aceptaIndependientes: true,
+      aceptaPensionados: true,
+      urlInformacion: 'https://www.bancocajasocial.com/credito-libre-inversion',
+      urlSolicitud: 'https://www.bancocajasocial.com/solicitud',
+      activo: true,
+      verificado: false
+    }
+  });
+
+  // Banco Popular - Libre Inversión
+  await prisma.producto.create({
+    data: {
+      entidadId: popular.id,
+      nombre: 'Crédito Personal Popular',
+      tipo: TipoProducto.LIBRE_INVERSION,
+      descripcion: 'Financiación flexible para tus proyectos',
+      tasaNominalMensual: 1.88,
+      tasaNominalAnual: 22.56,
+      tasaEfectivaAnual: 25.09,
+      montoMinimo: 1000000,
+      montoMaximo: 75000000,
+      plazoMinimoMeses: 6,
+      plazoMaximoMeses: 60,
+      costoEstudio: 48000,
+      costoAdministracion: 0.52,
+      seguroVida: 0.14,
+      seguroDesempleo: 0.05,
+      edadMinima: 18,
+      edadMaxima: 68,
+      ingresoMinimo: 1900000,
+      requiereCuentaNomina: false,
+      aceptaIndependientes: true,
+      aceptaPensionados: true,
+      urlInformacion: 'https://www.bancopopular.com.co/creditos/libre-inversion',
+      urlSolicitud: 'https://www.bancopopular.com.co/solicitud',
+      activo: true,
+      verificado: false
+    }
+  });
+
+  // Itaú - Libre Inversión
+  await prisma.producto.create({
+    data: {
+      entidadId: itau.id,
+      nombre: 'Crédito Personal Itaú',
+      tipo: TipoProducto.LIBRE_INVERSION,
+      descripcion: 'Préstamo simple y rápido',
+      tasaNominalMensual: 1.68,
+      tasaNominalAnual: 20.16,
+      tasaEfectivaAnual: 22.15,
+      montoMinimo: 1500000,
+      montoMaximo: 95000000,
+      plazoMinimoMeses: 12,
+      plazoMaximoMeses: 60,
+      costoEstudio: 50000,
+      costoAdministracion: 0.45,
+      seguroVida: 0.11,
+      seguroDesempleo: 0.03,
+      edadMinima: 18,
+      edadMaxima: 72,
+      ingresoMinimo: 2100000,
+      requiereCuentaNomina: false,
+      aceptaIndependientes: true,
+      aceptaPensionados: true,
+      urlInformacion: 'https://www.itau.co/creditos/libre-inversion',
+      urlSolicitud: 'https://www.itau.co/solicitud',
+      activo: true,
+      verificado: false
+    }
+  });
+
+  // Bancoomeva - Libre Inversión
+  await prisma.producto.create({
+    data: {
+      entidadId: bancoomeva.id,
+      nombre: 'Crédito de Consumo Bancoomeva',
+      tipo: TipoProducto.LIBRE_INVERSION,
+      descripcion: 'Financiación con beneficios para asociados',
+      tasaNominalMensual: 1.78,
+      tasaNominalAnual: 21.36,
+      tasaEfectivaAnual: 23.51,
+      montoMinimo: 1000000,
+      montoMaximo: 60000000,
+      plazoMinimoMeses: 6,
+      plazoMaximoMeses: 60,
+      costoEstudio: 38000,
+      costoAdministracion: 0.42,
+      seguroVida: 0.13,
+      seguroDesempleo: 0.04,
+      edadMinima: 18,
+      edadMaxima: 68,
+      ingresoMinimo: 1750000,
+      requiereCuentaNomina: false,
+      aceptaIndependientes: true,
+      aceptaPensionados: true,
+      urlInformacion: 'https://www.bancoomeva.com.co/creditos',
+      urlSolicitud: 'https://www.bancoomeva.com.co/solicitud',
+      activo: true,
+      verificado: false
+    }
+  });
+
+  // Banco de Occidente - Libre Inversión
+  await prisma.producto.create({
+    data: {
+      entidadId: occidente.id,
+      nombre: 'Crédito de Libre Inversión Occidente',
+      tipo: TipoProducto.LIBRE_INVERSION,
+      descripcion: 'Soluciones de crédito a tu medida',
+      tasaNominalMensual: 1.82,
+      tasaNominalAnual: 21.84,
+      tasaEfectivaAnual: 24.12,
+      montoMinimo: 1000000,
+      montoMaximo: 80000000,
+      plazoMinimoMeses: 12,
+      plazoMaximoMeses: 60,
+      costoEstudio: 46000,
+      costoAdministracion: 0.50,
+      seguroVida: 0.13,
+      seguroDesempleo: 0.05,
+      edadMinima: 18,
+      edadMaxima: 70,
+      ingresoMinimo: 2000000,
+      requiereCuentaNomina: false,
+      aceptaIndependientes: true,
+      aceptaPensionados: true,
+      urlInformacion: 'https://www.bancodeoccidente.com.co/creditos',
+      urlSolicitud: 'https://www.bancodeoccidente.com.co/solicitud',
+      activo: true,
+      verificado: false
+    }
+  });
+
+  // Coomultrasan - Libre Inversión
+  await prisma.producto.create({
+    data: {
+      entidadId: coomultrasan.id,
+      nombre: 'Crédito Ordinario',
+      tipo: TipoProducto.LIBRE_INVERSION,
+      descripcion: 'Crédito cooperativo con excelentes condiciones',
+      tasaNominalMensual: 1.58,
+      tasaNominalAnual: 18.96,
+      tasaEfectivaAnual: 20.73,
+      montoMinimo: 1000000,
+      montoMaximo: 45000000,
+      plazoMinimoMeses: 12,
+      plazoMaximoMeses: 60,
+      costoEstudio: 30000,
+      costoAdministracion: 0.35,
+      seguroVida: 0.10,
+      seguroDesempleo: 0,
+      edadMinima: 18,
+      edadMaxima: 65,
+      ingresoMinimo: 1600000,
+      requiereCuentaNomina: false,
+      aceptaIndependientes: true,
+      aceptaPensionados: true,
+      urlInformacion: 'https://www.coomultrasan.com.co/creditos',
+      urlSolicitud: 'https://www.coomultrasan.com.co/solicitud',
+      activo: true,
+      verificado: false
+    }
+  });
+
+  // Banco Caja Social - Compra de Cartera
+  await prisma.producto.create({
+    data: {
+      entidadId: cajaSocial.id,
+      nombre: 'Compra de Cartera Caja Social',
+      tipo: TipoProducto.COMPRA_CARTERA,
+      descripcion: 'Consolida tus deudas con mejores tasas',
+      tasaNominalMensual: 1.68,
+      tasaNominalAnual: 20.16,
+      tasaEfectivaAnual: 22.15,
+      montoMinimo: 2500000,
+      montoMaximo: 100000000,
+      plazoMinimoMeses: 12,
+      plazoMaximoMeses: 60,
+      costoEstudio: 52000,
+      costoAdministracion: 0.48,
+      seguroVida: 0.12,
+      seguroDesempleo: 0.04,
+      edadMinima: 18,
+      edadMaxima: 70,
+      ingresoMinimo: 2200000,
+      requiereCuentaNomina: false,
+      aceptaIndependientes: true,
+      aceptaPensionados: true,
+      urlInformacion: 'https://www.bancocajasocial.com/compra-cartera',
+      urlSolicitud: 'https://www.bancocajasocial.com/solicitud',
+      activo: true,
+      verificado: false
+    }
+  });
+
+  // Itaú - Compra de Cartera
+  await prisma.producto.create({
+    data: {
+      entidadId: itau.id,
+      nombre: 'Consolidación de Deudas Itaú',
+      tipo: TipoProducto.COMPRA_CARTERA,
+      descripcion: 'Una sola cuota, mejor control',
+      tasaNominalMensual: 1.62,
+      tasaNominalAnual: 19.44,
+      tasaEfectivaAnual: 21.30,
+      montoMinimo: 3000000,
+      montoMaximo: 140000000,
+      plazoMinimoMeses: 12,
+      plazoMaximoMeses: 60,
+      costoEstudio: 58000,
+      costoAdministracion: 0.45,
+      seguroVida: 0.11,
+      seguroDesempleo: 0.03,
+      edadMinima: 18,
+      edadMaxima: 72,
+      ingresoMinimo: 2500000,
+      requiereCuentaNomina: false,
+      aceptaIndependientes: true,
+      aceptaPensionados: true,
+      urlInformacion: 'https://www.itau.co/compra-cartera',
+      urlSolicitud: 'https://www.itau.co/solicitud',
+      activo: true,
+      verificado: false
+    }
+  });
+
+  console.log(`✅ ${20} productos totales creados (12 anteriores + 8 nuevos)`);
 
   // ============================================
   // CONFIGURACIONES DE SCRAPING
@@ -562,8 +876,8 @@ async function main() {
   console.log('✨ Seed completado exitosamente!');
   console.log('');
   console.log('📊 Resumen:');
-  console.log(`   - ${8} Entidades financieras`);
-  console.log(`   - ${12} Productos (8 Libre Inversión + 4 Compra Cartera)`);
+  console.log(`   - ${14} Entidades financieras`);
+  console.log(`   - ${20} Productos (14 Libre Inversión + 6 Compra Cartera)`);
   console.log(`   - ${3} Configuraciones de scraping`);
   console.log('');
 }
