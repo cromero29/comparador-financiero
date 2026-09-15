@@ -6,6 +6,7 @@ import { Button } from '@components/ui/Button';
 import { Loading, CardSkeleton } from '@components/ui/Loading';
 import { ComparacionFormData, ResultadoComparacion } from '../types';
 import { compararOfertas, trackEvento } from '@services/api';
+import { trackingService } from '@services/tracking';
 import { formatCurrency, formatPercentage } from '@utils/format';
 import { TEXTOS } from '@config/constants';
 
@@ -24,7 +25,32 @@ export const ResultadosPage = () => {
     onSuccess: async (data) => {
       setResultado(data);
       
-      // Tracking
+      // Registrar búsqueda completa en tracking
+      if (formData) {
+        try {
+          await trackingService.registrarBusqueda({
+            tipoProducto: formData.tipoProducto,
+            montoSolicitado: formData.montoSolicitado,
+            plazoMeses: formData.plazoMeses,
+            ingresos: formData.ingresos,
+            edad: formData.edad,
+            tipoEmpleo: formData.tipoEmpleo,
+            deudaActual: formData.deudaActual,
+            cuotaActual: formData.cuotaActual,
+            tasaActual: formData.tasaActual,
+            ofertasEncontradas: data.ofertas.length,
+            mejorTasa: data.resumen.mejorTasa,
+            mejorCuota: data.resumen.mejorCuota,
+            entidad1Id: data.ofertas[0]?.entidadId,
+            entidad2Id: data.ofertas[1]?.entidadId,
+            entidad3Id: data.ofertas[2]?.entidadId,
+          });
+        } catch (error) {
+          console.error('Error registrando búsqueda:', error);
+        }
+      }
+      
+      // Tracking de evento
       await trackEvento({
         tipoEvento: 'results_view',
         categoria: 'comparacion',
@@ -52,6 +78,16 @@ export const ResultadosPage = () => {
     comparar(formData);
   }, [formData, navigate, comparar]);
 
+  // Actualizar engagement al salir de la página
+  useEffect(() => {
+    return () => {
+      // Actualizar engagement al desmontar componente (usuario sale de resultados)
+      if (resultado && resultado.ofertas.length > 0) {
+        trackingService.actualizarEngagement().catch(console.error);
+      }
+    };
+  }, [resultado]);
+
   // Calcular ofertas de la página actual
   const indiceInicio = (paginaActual - 1) * ofertasPorPagina;
   const indiceFin = indiceInicio + ofertasPorPagina;
@@ -61,9 +97,19 @@ export const ResultadosPage = () => {
   const handleCambioPagina = (nuevaPagina: number) => {
     setPaginaActual(nuevaPagina);
     window.scrollTo({ top: 0, behavior: 'smooth' });
+    
+    // Registrar evento de cambio de página
+    trackingService.registrarEvento({
+      tipoEvento: 'pagination',
+      categoria: 'navegacion',
+      accion: 'cambio_pagina',
+      etiqueta: `pagina_${nuevaPagina}`,
+    }).catch(console.error);
   };
   
   const handleNuevaComparacion = () => {
+    // Resetear tracking para nueva búsqueda
+    trackingService.resetearBusqueda();
     navigate('/');
   };
   
@@ -180,6 +226,10 @@ export const ResultadosPage = () => {
                   key={oferta.id} 
                   oferta={oferta}
                   montoSolicitado={formData.montoSolicitado}
+                  paginaActual={paginaActual}
+                  edad={formData.edad}
+                  ingresos={formData.ingresos}
+                  tipoEmpleo={formData.tipoEmpleo}
                 />
               ))}
             </div>

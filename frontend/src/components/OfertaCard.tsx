@@ -6,27 +6,68 @@ import { OfertaComparada } from '../types';
 import { formatCurrency, formatPercentage } from '@utils/format';
 import { RANKING_COLORS, ENTIDAD_ICONS } from '@config/constants';
 import { trackClic } from '@services/api';
+import { trackingService } from '@services/tracking';
 import { getLogo } from '@/assets/logos';
 
 interface OfertaCardProps {
   oferta: OfertaComparada;
   montoSolicitado: number;
+  paginaActual?: number;
+  edad?: number;
+  ingresos?: number;
+  tipoEmpleo?: string;
   onClickSolicitar?: (oferta: OfertaComparada) => void;
 }
 
-export const OfertaCard = ({ oferta, montoSolicitado, onClickSolicitar }: OfertaCardProps) => {
+export const OfertaCard = ({ 
+  oferta, 
+  montoSolicitado, 
+  paginaActual = 1,
+  edad = 30,
+  ingresos = 3000000,
+  tipoEmpleo = 'dependiente',
+  onClickSolicitar 
+}: OfertaCardProps) => {
   const [showDetails, setShowDetails] = useState(false);
   const [isRedirecting, setIsRedirecting] = useState(false);
   
   const rankingColor = RANKING_COLORS[oferta.ranking.posicion as 1 | 2 | 3] || RANKING_COLORS.default;
   const logoLocal = getLogo(oferta.entidad.codigo);
   
+  const handleToggleDetails = () => {
+    setShowDetails(!showDetails);
+    
+    // Registrar que expandió la oferta
+    if (!showDetails) {
+      trackingService.registrarOfertaExpandida();
+    }
+  };
+  
   const handleSolicitar = async () => {
     setIsRedirecting(true);
     
     try {
-      // Tracking del clic (CPC)
-      const response = await trackClic({
+      // Nuevo tracking detallado con trackingService
+      await trackingService.registrarClic({
+        productoId: oferta.id,
+        entidadId: oferta.entidad.id,
+        entidadNombre: oferta.entidad.nombre,
+        entidadTipo: oferta.entidad.tipo,
+        posicion: oferta.ranking.posicion,
+        paginaResultados: paginaActual,
+        montoSolicitado,
+        plazoMeses: oferta.condiciones.plazoMeses,
+        tipoProducto: oferta.producto.tipo,
+        tasaOfrecida: oferta.condiciones.tasaEfectivaAnual,
+        cuotaOfrecida: oferta.cuota.total,
+        edad,
+        ingresos,
+        tipoEmpleo,
+        urlDestino: oferta.urlSolicitud,
+      });
+      
+      // También usar el tracking viejo para compatibilidad
+      await trackClic({
         productoId: oferta.id,
         posicion: oferta.ranking.posicion,
         montoSolicitado: montoSolicitado,
@@ -35,7 +76,7 @@ export const OfertaCard = ({ oferta, montoSolicitado, onClickSolicitar }: Oferta
       });
       
       // Abrir URL en nueva pestaña
-      window.open(response.urlRedirect, '_blank');
+      window.open(oferta.urlSolicitud, '_blank');
       
       // Callback opcional
       onClickSolicitar?.(oferta);
@@ -216,7 +257,7 @@ export const OfertaCard = ({ oferta, montoSolicitado, onClickSolicitar }: Oferta
         <Button
           variant="ghost"
           fullWidth
-          onClick={() => setShowDetails(!showDetails)}
+          onClick={handleToggleDetails}
         >
           {showDetails ? '▲ Menos detalles' : '▼ Más detalles'}
         </Button>

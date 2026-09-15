@@ -1,7 +1,9 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { useEffect } from 'react';
 import { LandingPage } from '@pages/LandingPage';
 import { ResultadosPage } from '@pages/ResultadosPage';
+import { trackingService } from '@services/tracking';
 
 // Configurar React Query
 const queryClient = new QueryClient({
@@ -15,6 +17,13 @@ const queryClient = new QueryClient({
 });
 
 function App() {
+  // Inicializar sesión al cargar la aplicación
+  useEffect(() => {
+    trackingService.inicializarSesion().catch(err => {
+      console.error('Error inicializando tracking:', err);
+    });
+  }, []);
+
   return (
     <QueryClientProvider client={queryClient}>
       <BrowserRouter>
