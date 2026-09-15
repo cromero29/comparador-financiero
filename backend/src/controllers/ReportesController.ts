@@ -58,6 +58,211 @@ export class ReportesController {
         ? (busquedas.reduce((sum, b) => sum + Number(b.ingresos), 0) / busquedas.length).toFixed(0)
         : 0;
 
+      // ============================================
+      // TOP RANKINGS
+      // ============================================
+
+      // TOP 10: Bancos mejor posicionados (aparecen en top 3 de búsquedas)
+      const top3Apariciones: Record<string, { entidad: string; tipo: string; apariciones: number }> = {};
+      
+      for (const busqueda of busquedas) {
+        const entidadIds = [busqueda.entidad1Id, busqueda.entidad2Id, busqueda.entidad3Id].filter(Boolean);
+        
+        for (const entidadId of entidadIds) {
+          if (!entidadId) continue;
+          
+          const entidad = await prisma.entidadFinanciera.findUnique({
+            where: { id: entidadId as string }
+          });
+          
+          if (entidad) {
+            if (!top3Apariciones[entidad.id]) {
+              top3Apariciones[entidad.id] = {
+                entidad: entidad.nombre,
+                tipo: entidad.tipo,
+                apariciones: 0
+              };
+            }
+            top3Apariciones[entidad.id].apariciones++;
+          }
+        }
+      }
+
+      const topEntidadesMejorPosicionadas = Object.values(top3Apariciones)
+        .sort((a, b) => b.apariciones - a.apariciones)
+        .slice(0, 10)
+        .map((item, index) => ({
+          posicion: index + 1,
+          entidad: item.entidad,
+          tipo: item.tipo,
+          aparicionesEnTop3: item.apariciones,
+          porcentaje: totalBusquedas > 0 ? `${((item.apariciones / totalBusquedas) * 100).toFixed(1)}%` : '0%'
+        }));
+
+      // TOP 10: Bancos con mejores tasas promedio (de los productos clickeados)
+      const clics = await prisma.clicTracking.findMany({
+        where: { fecha: { gte: fechaInicio } },
+        include: {
+          sesion: true
+        }
+      });
+
+      const tasasPorEntidad: Record<string, { entidad: string; tipo: string; tasas: number[]; productos: number }> = {};
+      
+      for (const clic of clics) {
+        if (!tasasPorEntidad[clic.entidadId]) {
+          tasasPorEntidad[clic.entidadId] = {
+            entidad: clic.entidadNombre,
+            tipo: clic.entidadTipo,
+            tasas: [],
+            productos: 0
+          };
+        }
+        tasasPorEntidad[clic.entidadId].tasas.push(Number(clic.tasaOfrecida));
+        tasasPorEntidad[clic.entidadId].productos++;
+      }
+
+      const topEntidadesMejoresTasas = Object.entries(tasasPorEntidad)
+        .map(([id, data]) => ({
+          entidadId: id,
+          entidad: data.entidad,
+          tipo: data.tipo,
+          tasaPromedio: data.tasas.reduce((a, b) => a + b, 0) / data.tasas.length,
+          productosClickeados: data.productos
+        }))
+        .sort((a, b) => a.tasaPromedio - b.tasaPromedio) // Menor tasa = mejor
+        .slice(0, 10)
+        .map((item, index) => ({
+          posicion: index + 1,
+          entidad: item.entidad,
+          tipo: item.tipo,
+          tasaPromedioTEA: `${item.tasaPromedio.toFixed(2)}%`,
+          productosClickeados: item.productosClickeados
+        }));
+
+      // TOP 10: Bancos más clickeados
+      const clicsPorEntidad: Record<string, { entidad: string; tipo: string; clics: number }> = {};
+      
+      for (const clic of clics) {
+        if (!clicsPorEntidad[clic.entidadId]) {
+          clicsPorEntidad[clic.entidadId] = {
+            entidad: clic.entidadNombre,
+            tipo: clic.entidadTipo,
+            clics: 0
+          };
+        }
+        clicsPorEntidad[clic.entidadId].clics++;
+      }
+
+      const topEntidadesMasClics = Object.values(clicsPorEntidad)
+        .sort((a, b) => b.clics - a.clics)
+        .slice(0, 10)
+        .map((item, index) => ({
+          posicion: index + 1,
+          entidad: item.entidad,
+          tipo: item.tipo,
+          totalClics: item.clics,
+          porcentaje: totalClics > 0 ? `${((item.clics / totalClics) * 100).toFixed(1)}%` : '0%'
+        }));
+
+      // TOP 10: Bancos con mejor tasa de conversión (% de apariciones que generan clic)
+      const entidadesConMetricas: Record<string, {
+        entidad: string;
+        tipo: string;
+        apariciones: number;
+        clics: number;
+      }> = {};
+
+      // Contar apariciones en búsquedas
+      for (const busqueda of busquedas) {
+        const entidadIds = [busqueda.entidad1Id, busqueda.entidad2Id, busqueda.entidad3Id].filter(Boolean);
+        
+        for (const entidadId of entidadIds) {
+          if (!entidadId) continue;
+          
+          const entidad = await prisma.entidadFinanciera.findUnique({
+            where: { id: entidadId as string }
+          });
+          
+          if (entidad) {
+            if (!entidadesConMetricas[entidad.id]) {
+              entidadesConMetricas[entidad.id] = {
+                entidad: entidad.nombre,
+                tipo: entidad.tipo,
+                apariciones: 0,
+                clics: 0
+              };
+            }
+            entidadesConMetricas[entidad.id].apariciones++;
+          }
+        }
+      }
+
+      // Agregar clics
+      for (const clic of clics) {
+        if (entidadesConMetricas[clic.entidadId]) {
+          entidadesConMetricas[clic.entidadId].clics++;
+        }
+      }
+
+      const topEntidadesMejorConversion = Object.values(entidadesConMetricas)
+        .filter(item => item.apariciones >= 3) // Solo considerar con al menos 3 apariciones
+        .map(item => ({
+          entidad: item.entidad,
+          tipo: item.tipo,
+          apariciones: item.apariciones,
+          clics: item.clics,
+          tasaConversion: ((item.clics / item.apariciones) * 100)
+        }))
+        .sort((a, b) => b.tasaConversion - a.tasaConversion)
+        .slice(0, 10)
+        .map((item, index) => ({
+          posicion: index + 1,
+          entidad: item.entidad,
+          tipo: item.tipo,
+          apariciones: item.apariciones,
+          clics: item.clics,
+          tasaConversion: `${item.tasaConversion.toFixed(1)}%`
+        }));
+
+      // TOP 10: Productos más clickeados
+      const productosPorId: Record<string, {
+        entidad: string;
+        producto: string;
+        clics: number;
+      }> = {};
+
+      for (const clic of clics) {
+        if (!productosPorId[clic.productoId]) {
+          const producto = await prisma.producto.findUnique({
+            where: { id: clic.productoId },
+            include: { entidad: true }
+          });
+
+          if (producto) {
+            productosPorId[clic.productoId] = {
+              entidad: producto.entidad.nombre,
+              producto: producto.nombre,
+              clics: 0
+            };
+          }
+        }
+        if (productosPorId[clic.productoId]) {
+          productosPorId[clic.productoId].clics++;
+        }
+      }
+
+      const topProductosMasClics = Object.values(productosPorId)
+        .sort((a, b) => b.clics - a.clics)
+        .slice(0, 10)
+        .map((item, index) => ({
+          posicion: index + 1,
+          entidad: item.entidad,
+          producto: item.producto,
+          totalClics: item.clics,
+          porcentaje: totalClics > 0 ? `${((item.clics / totalClics) * 100).toFixed(1)}%` : '0%'
+        }));
+
       res.json({
         success: true,
         data: {
@@ -92,6 +297,13 @@ export class ReportesController {
             dependiente: busquedas.filter(b => b.tipoEmpleo === 'dependiente').length,
             independiente: busquedas.filter(b => b.tipoEmpleo === 'independiente').length,
             pensionado: busquedas.filter(b => b.tipoEmpleo === 'pensionado').length
+          },
+          rankings: {
+            top10EntidadesMejorPosicionadas: topEntidadesMejorPosicionadas,
+            top10EntidadesMejoresTasas: topEntidadesMejoresTasas,
+            top10EntidadesMasClics: topEntidadesMasClics,
+            top10EntidadesMejorConversion: topEntidadesMejorConversion,
+            top10ProductosMasClics: topProductosMasClics
           }
         }
       });
