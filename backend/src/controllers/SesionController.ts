@@ -1,6 +1,8 @@
 import { Request, Response } from 'express';
+import { ZodError } from 'zod';
 import { prisma } from '@config/database';
 import { logger } from '@config/logger';
+import { iniciarSesionSchema } from '@utils/validators';
 
 export class SesionController {
   /**
@@ -9,6 +11,7 @@ export class SesionController {
    */
   async iniciarSesion(req: Request, res: Response) {
     try {
+      // Validar y sanear el input
       const {
         fingerprint,
         userAgent,
@@ -21,7 +24,7 @@ export class SesionController {
         utmContent,
         utmTerm,
         referrer
-      } = req.body;
+      } = iniciarSesionSchema.parse(req.body);
 
       // Obtener IP del cliente (considerando proxies)
       const ipAddress = (req.headers['x-forwarded-for'] as string)?.split(',')[0]?.trim() 
@@ -58,6 +61,12 @@ export class SesionController {
         sesionId: sesion.id
       });
     } catch (error) {
+      if (error instanceof ZodError) {
+        return res.status(400).json({
+          success: false,
+          error: 'Datos de sesión inválidos'
+        });
+      }
       logger.error('Error al iniciar sesión:', error);
       res.status(500).json({
         success: false,

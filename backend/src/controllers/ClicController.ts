@@ -1,6 +1,8 @@
 import { Request, Response } from 'express';
+import { ZodError } from 'zod';
 import { prisma } from '@config/database';
 import { logger } from '@config/logger';
+import { registrarClicSchema } from '@utils/validators';
 
 export class ClicController {
   /**
@@ -28,7 +30,7 @@ export class ClicController {
         tipoEmpleo,
         urlDestino,
         redireccionExitosa
-      } = req.body;
+      } = registrarClicSchema.parse(req.body);
 
       // Validar que la sesión existe
       const sesion = await prisma.sesion.findUnique({
@@ -89,6 +91,12 @@ export class ClicController {
         clicId: clic.id
       });
     } catch (error) {
+      if (error instanceof ZodError) {
+        return res.status(400).json({
+          success: false,
+          error: 'Datos de clic inválidos'
+        });
+      }
       logger.error('Error al registrar clic:', error);
       res.status(500).json({
         success: false,

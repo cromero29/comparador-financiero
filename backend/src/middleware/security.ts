@@ -100,6 +100,27 @@ export const comparacionLimiter = rateLimit({
   },
 });
 
+// Rate limiter para endpoints de tracking (sesión, búsqueda, clic, evento)
+// Evita que un bot registre miles de eventos falsos que contaminen los datos.
+export const trackingLimiter = rateLimit({
+  windowMs: 60 * 1000, // 1 minuto
+  max: 60, // 60 eventos de tracking por minuto por IP (holgado para uso normal)
+  standardHeaders: true,
+  legacyHeaders: false,
+  keyGenerator: (req: Request) => {
+    return req.ip || (req.headers['x-forwarded-for'] as string) || 'unknown';
+  },
+  handler: (req: Request, res: Response) => {
+    res.status(429).json({
+      success: false,
+      error: {
+        code: 'RATE_LIMIT_EXCEEDED',
+        message: 'Demasiadas solicitudes de tracking. Espera un momento.',
+      },
+    } as ApiResponse);
+  },
+});
+
 // Rate limiter para scraping (admin)
 export const scrapingLimiter = rateLimit({
   windowMs: 60 * 60 * 1000, // 1 hora

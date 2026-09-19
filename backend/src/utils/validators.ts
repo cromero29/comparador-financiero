@@ -1,5 +1,5 @@
 import { z } from 'zod';
-import { TipoProducto } from '@prisma/client';
+import { TipoProducto, TipoEntidad } from '@prisma/client';
 import DOMPurify from 'isomorphic-dompurify';
 
 // Schema para comparación
@@ -55,6 +55,99 @@ export const clicTrackingSchema = z.object({
   montoSolicitado: z.number().positive(),
   plazoMeses: z.number().int().positive(),
   tipoProducto: z.nativeEnum(TipoProducto),
+});
+
+// ============================================
+// SCHEMAS DE TRACKING DETALLADO (endpoints nuevos)
+// ============================================
+// Límites de longitud para evitar payloads maliciosos y datos basura
+// que contaminen los reportes de analytics.
+
+const shortText = (max = 255) => z.string().trim().max(max).optional();
+const uuidField = z.string().uuid();
+
+// POST /sesion/iniciar
+export const iniciarSesionSchema = z.object({
+  fingerprint: z.string().trim().max(255).optional(),
+  userAgent: z.string().trim().max(1000).optional(),
+  dispositivo: z.enum(['desktop', 'mobile', 'tablet']).optional(),
+  navegador: shortText(50),
+  sistemaOperativo: shortText(50),
+  utmSource: shortText(255),
+  utmMedium: shortText(255),
+  utmCampaign: shortText(255),
+  utmContent: shortText(255),
+  utmTerm: shortText(255),
+  referrer: z.string().trim().max(2000).optional(),
+});
+
+// POST /busqueda/registrar
+export const registrarBusquedaSchema = z.object({
+  sesionId: uuidField,
+  tipoProducto: z.nativeEnum(TipoProducto),
+  montoSolicitado: z.number().positive().max(1_000_000_000),
+  plazoMeses: z.number().int().min(1).max(600),
+  ingresos: z.number().positive().max(10_000_000_000),
+  edad: z.number().int().min(18).max(100),
+  tipoEmpleo: z.enum(['dependiente', 'independiente', 'pensionado']),
+  deudaActual: z.number().nonnegative().max(10_000_000_000).optional(),
+  cuotaActual: z.number().nonnegative().max(1_000_000_000).optional(),
+  tasaActual: z.number().nonnegative().max(100).optional(),
+  ofertasEncontradas: z.number().int().min(0).max(1000),
+  mejorTasa: z.number().nonnegative().max(1000),
+  mejorCuota: z.number().nonnegative().max(1_000_000_000),
+  entidad1Id: shortText(100),
+  entidad2Id: shortText(100),
+  entidad3Id: shortText(100),
+});
+
+// POST /busqueda/engagement
+export const engagementSchema = z.object({
+  busquedaId: uuidField,
+  tiempoEnResultados: z.number().int().min(0).max(86400).optional(),
+  ofertasExpandidas: z.number().int().min(0).max(1000).optional(),
+  generoClic: z.boolean().optional(),
+  clicsGenerados: z.number().int().min(0).max(1000).optional(),
+});
+
+// POST /clic/registrar
+export const registrarClicSchema = z.object({
+  sesionId: uuidField,
+  busquedaId: uuidField.optional().nullable(),
+  productoId: z.string().trim().max(100),
+  entidadId: z.string().trim().max(100),
+  entidadNombre: z.string().trim().max(255),
+  entidadTipo: z.nativeEnum(TipoEntidad),
+  posicion: z.number().int().min(1).max(1000),
+  paginaResultados: z.number().int().min(1).max(1000),
+  montoSolicitado: z.number().positive().max(1_000_000_000),
+  plazoMeses: z.number().int().min(1).max(600),
+  tipoProducto: z.nativeEnum(TipoProducto),
+  tasaOfrecida: z.number().nonnegative().max(1000),
+  cuotaOfrecida: z.number().nonnegative().max(1_000_000_000),
+  edad: z.number().int().min(18).max(100),
+  ingresos: z.number().positive().max(10_000_000_000),
+  tipoEmpleo: z.string().trim().max(50),
+  urlDestino: z.string().trim().max(2000).default(''),
+  redireccionExitosa: z.boolean().default(true),
+});
+
+// POST /evento/registrar
+export const registrarEventoSchema = z.object({
+  sesionId: uuidField,
+  tipoEvento: z.string().trim().min(1).max(100),
+  categoria: z.string().trim().min(1).max(100),
+  accion: z.string().trim().min(1).max(100),
+  etiqueta: z.string().trim().max(255).optional(),
+  // metadata limitado a 4KB serializado para evitar payloads abusivos
+  metadata: z
+    .record(z.any())
+    .refine((obj) => JSON.stringify(obj).length <= 4096, {
+      message: 'metadata excede el tamaño máximo permitido (4KB)',
+    })
+    .optional(),
+  url: z.string().trim().max(2000).optional(),
+  pathname: z.string().trim().max(500).optional(),
 });
 
 // Funciones de validación

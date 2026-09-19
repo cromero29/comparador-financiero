@@ -8,6 +8,7 @@ import sesionRoutes from './sesion.routes';
 import busquedaRoutes from './busqueda.routes';
 import clicRoutes from './clic.routes';
 import eventoRoutes from './evento.routes';
+import { trackingLimiter } from '../middleware/security';
 
 const router = Router();
 
@@ -18,10 +19,10 @@ router.use('/scraper', scraperRoutes);
 router.use('/health', healthRoutes);
 router.use('/reportes', reportesRoutes);
 
-// Rutas de tracking detallado
-router.use('/sesion', sesionRoutes);
-router.use('/busqueda', busquedaRoutes);
-router.use('/clic', clicRoutes);
-router.use('/evento', eventoRoutes);
+// Rutas de tracking detallado (con rate limit específico anti-abuso)
+router.use('/sesion', trackingLimiter, sesionRoutes);
+router.use('/busqueda', trackingLimiter, busquedaRoutes);
+router.use('/clic', trackingLimiter, clicRoutes);
+router.use('/evento', trackingLimiter, eventoRoutes);
 
 export { router as apiRoutes };

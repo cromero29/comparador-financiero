@@ -1,6 +1,8 @@
 import { Request, Response } from 'express';
+import { ZodError } from 'zod';
 import { prisma } from '@config/database';
 import { logger } from '@config/logger';
+import { registrarEventoSchema } from '@utils/validators';
 
 export class EventoController {
   /**
@@ -18,7 +20,7 @@ export class EventoController {
         metadata,
         url,
         pathname
-      } = req.body;
+      } = registrarEventoSchema.parse(req.body);
 
       // Validar que la sesión existe
       const sesion = await prisma.sesion.findUnique({
@@ -58,6 +60,12 @@ export class EventoController {
         eventoId: evento.id
       });
     } catch (error) {
+      if (error instanceof ZodError) {
+        return res.status(400).json({
+          success: false,
+          error: 'Datos de evento inválidos'
+        });
+      }
       logger.error('Error al registrar evento:', error);
       res.status(500).json({
         success: false,

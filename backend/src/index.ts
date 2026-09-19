@@ -16,9 +16,10 @@ const app: Application = express();
 // MIDDLEWARE GLOBAL
 // ============================================
 
-// Body parsing
-app.use(express.json({ limit: '10mb' }));
-app.use(express.urlencoded({ extended: true, limit: '10mb' }));
+// Body parsing (límite reducido: los payloads de la API son pequeños;
+// evita que se envíen cuerpos gigantes como vector de abuso/DoS)
+app.use(express.json({ limit: '256kb' }));
+app.use(express.urlencoded({ extended: true, limit: '256kb' }));
 
 // Cookie parsing
 app.use(cookieParser());

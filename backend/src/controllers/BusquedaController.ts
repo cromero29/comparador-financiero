@@ -1,6 +1,8 @@
 import { Request, Response } from 'express';
+import { ZodError } from 'zod';
 import { prisma } from '@config/database';
 import { logger } from '@config/logger';
+import { registrarBusquedaSchema, engagementSchema } from '@utils/validators';
 
 export class BusquedaController {
   /**
@@ -26,7 +28,7 @@ export class BusquedaController {
         entidad1Id,
         entidad2Id,
         entidad3Id
-      } = req.body;
+      } = registrarBusquedaSchema.parse(req.body);
 
       // Validar que la sesión existe
       const sesion = await prisma.sesion.findUnique({
@@ -74,6 +76,12 @@ export class BusquedaController {
         busquedaId: busqueda.id
       });
     } catch (error) {
+      if (error instanceof ZodError) {
+        return res.status(400).json({
+          success: false,
+          error: 'Datos de búsqueda inválidos'
+        });
+      }
       logger.error('Error al registrar búsqueda:', error);
       res.status(500).json({
         success: false,
@@ -94,7 +102,7 @@ export class BusquedaController {
         ofertasExpandidas,
         generoClic,
         clicsGenerados
-      } = req.body;
+      } = engagementSchema.parse(req.body);
 
       // Actualizar búsqueda
       const busqueda = await prisma.busqueda.update({
@@ -117,6 +125,12 @@ export class BusquedaController {
         busquedaId: busqueda.id
       });
     } catch (error) {
+      if (error instanceof ZodError) {
+        return res.status(400).json({
+          success: false,
+          error: 'Datos de engagement inválidos'
+        });
+      }
       logger.error('Error al actualizar engagement:', error);
       res.status(500).json({
         success: false,
