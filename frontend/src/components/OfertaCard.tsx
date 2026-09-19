@@ -28,7 +28,6 @@ export const OfertaCard = ({
   onClickSolicitar 
 }: OfertaCardProps) => {
   const [showDetails, setShowDetails] = useState(false);
-  const [isRedirecting, setIsRedirecting] = useState(false);
   
   const rankingColor = RANKING_COLORS[oferta.ranking.posicion as 1 | 2 | 3] || RANKING_COLORS.default;
   const logoLocal = getLogo(oferta.entidad.codigo);
@@ -42,43 +41,44 @@ export const OfertaCard = ({
     }
   };
   
-  const handleSolicitar = async () => {
-    setIsRedirecting(true);
-    
-    try {
-      // Nuevo tracking detallado con trackingService
-      await trackingService.registrarClic({
-        productoId: oferta.id,
-        entidadId: oferta.entidad.id,
-        entidadNombre: oferta.entidad.nombre,
-        entidadTipo: oferta.entidad.tipo,
-        posicion: oferta.ranking.posicion,
-        paginaResultados: paginaActual,
-        montoSolicitado,
-        plazoMeses: oferta.condiciones.plazoMeses,
-        tipoProducto: oferta.producto.tipo,
-        tasaOfrecida: oferta.condiciones.tasaEfectivaAnual,
-        cuotaOfrecida: oferta.cuota.total,
-        edad,
-        ingresos,
-        tipoEmpleo,
-        urlDestino: oferta.urlSolicitud,
-      });
-      
-      // Abrir URL en nueva pestaña
-      window.open(oferta.urlSolicitud, '_blank');
-      
-      // Callback opcional
-      onClickSolicitar?.(oferta);
-      
-    } catch (error) {
-      console.error('Error al redirigir:', error);
-      // Fallback: abrir URL directamente
-      window.open(oferta.urlSolicitud, '_blank');
-    } finally {
-      setIsRedirecting(false);
+  const handleSolicitar = () => {
+    // IMPORTANTE: abrir la pestaña de inmediato, dentro del gesto del usuario.
+    // Los navegadores móviles (Safari/Chrome) bloquean window.open si ocurre
+    // después de un await. Por eso abrimos primero y trackeamos en segundo plano.
+    const nuevaVentana = window.open(oferta.urlSolicitud, '_blank', 'noopener,noreferrer');
+
+    // Si el navegador bloqueó el popup, navegamos en la misma pestaña como fallback
+    if (!nuevaVentana) {
+      // Registrar el clic sin bloquear y luego redirigir
+      trackingService.registrarClic(construirDatosClic()).catch(console.error);
+      window.location.href = oferta.urlSolicitud;
+      return;
     }
+
+    // Registrar el clic en segundo plano (no bloquea la navegación)
+    trackingService.registrarClic(construirDatosClic()).catch(console.error);
+
+    onClickSolicitar?.(oferta);
   };
+
+  // Construye el payload de tracking del clic
+  const construirDatosClic = () => ({
+    productoId: oferta.id,
+    entidadId: oferta.entidad.id,
+    entidadNombre: oferta.entidad.nombre,
+    entidadTipo: oferta.entidad.tipo,
+    posicion: oferta.ranking.posicion,
+    paginaResultados: paginaActual,
+    montoSolicitado,
+    plazoMeses: oferta.condiciones.plazoMeses,
+    tipoProducto: oferta.producto.tipo,
+    tasaOfrecida: oferta.condiciones.tasaEfectivaAnual,
+    cuotaOfrecida: oferta.cuota.total,
+    edad,
+    ingresos,
+    tipoEmpleo,
+    urlDestino: oferta.urlSolicitud,
+  });
   
   return (
     <Card hover className={`border-l-4 ${oferta.ranking.posicion === 1 ? 'border-l-green-500' : 'border-l-primary-500'}`}>
@@ -239,9 +239,8 @@ export const OfertaCard = ({
           variant="primary"
           fullWidth
           onClick={handleSolicitar}
-          isLoading={isRedirecting}
         >
-          {isRedirecting ? 'Redirigiendo...' : '🚀 Solicitar ahora'}
+          🚀 Solicitar ahora
         </Button>
         
         <Button
