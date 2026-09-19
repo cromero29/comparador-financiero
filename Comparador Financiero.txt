@@ -1,0 +1,12 @@
+Comparador Financiero
+
+http://localhost:4000/api/v1/reportes/resumen
+http://localhost:4000/api/v1/reportes/busquedas-detalle
+http://localhost:4000/api/v1/reportes/clics-por-entidad
+http://localhost:4000/api/v1/reportes/funnel-conversion
+http://localhost:4000/api/v1/reportes/segmentacion
+
+
+docker start comparador_postgres comparador_redis
+cd backend && npm run dev    # Terminal 1
+cd frontend && npm run dev   # Terminal 2

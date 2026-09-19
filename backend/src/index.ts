@@ -87,10 +87,10 @@ async function startServer() {
     scraperScheduler = new ScraperScheduler();
     scraperScheduler.start();
 
-    // Start server
+    // Start server (0.0.0.0 requerido para Railway/Docker)
     const PORT = env.PORT || 4000;
     
-    app.listen(PORT, () => {
+    app.listen(PORT, '0.0.0.0', () => {
       logger.info('='.repeat(50));
       logger.info(`🚀 Servidor iniciado correctamente`);
       logger.info(`📡 Puerto: ${PORT}`);

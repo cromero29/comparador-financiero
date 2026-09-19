@@ -1,4 +1,4 @@
-import { api } from './api';
+import api from './api';
 
 // Fingerprint simple del navegador (mejorable con FingerprintJS)
 const getFingerprint = (): string => {
@@ -78,9 +78,9 @@ class TrackingService {
    * Inicializar sesión
    */
   async inicializarSesion(): Promise<string> {
-    // Si ya existe sesión en sessionStorage, usar esa
+    // Si ya existe sesión VÁLIDA en sessionStorage, usar esa
     const sesionExistente = sessionStorage.getItem('sesionId');
-    if (sesionExistente) {
+    if (sesionExistente && !sesionExistente.startsWith('temp_')) {
       this.sesionId = sesionExistente;
       return sesionExistente;
     }
@@ -98,27 +98,31 @@ class TrackingService {
       });
 
       this.sesionId = response.data.sesionId;
-      sessionStorage.setItem('sesionId', this.sesionId);
+      sessionStorage.setItem('sesionId', this.sesionId!);
       
-      return this.sesionId;
+      return this.sesionId!;
     } catch (error) {
       console.error('Error al inicializar sesión:', error);
-      // Generar ID temporal si falla
-      const tempId = `temp_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
-      this.sesionId = tempId;
-      sessionStorage.setItem('sesionId', tempId);
-      return tempId;
+      // NO cachear IDs temporales para reintentar en la próxima llamada
+      this.sesionId = null;
+      sessionStorage.removeItem('sesionId');
+      throw error;
     }
   }
 
   /**
    * Obtener sesión ID (lazy init)
    */
-  async getSesionId(): Promise<string> {
-    if (!this.sesionId) {
-      return await this.inicializarSesion();
+  async getSesionId(): Promise<string | null> {
+    if (this.sesionId && !this.sesionId.startsWith('temp_')) {
+      return this.sesionId;
     }
-    return this.sesionId;
+    try {
+      return await this.inicializarSesion();
+    } catch (error) {
+      console.warn('No se pudo obtener sesión válida:', error);
+      return null;
+    }
   }
 
   /**
@@ -143,6 +147,10 @@ class TrackingService {
   }) {
     try {
       const sesionId = await this.getSesionId();
+      if (!sesionId) {
+        console.warn('Sin sesión válida, no se registra búsqueda');
+        return;
+      }
       
       const response = await api.post('/busqueda/registrar', {
         sesionId,
@@ -211,6 +219,10 @@ class TrackingService {
   }) {
     try {
       const sesionId = await this.getSesionId();
+      if (!sesionId) {
+        console.warn('Sin sesión válida, no se registra clic');
+        return;
+      }
       
       const response = await api.post('/clic/registrar', {
         sesionId,
@@ -240,6 +252,10 @@ class TrackingService {
   }) {
     try {
       const sesionId = await this.getSesionId();
+      if (!sesionId) {
+        console.warn('Sin sesión válida, no se registra evento');
+        return;
+      }
       
       await api.post('/evento/registrar', {
         sesionId,

@@ -1,15 +1,15 @@
 import { useNavigate } from 'react-router-dom';
 import { ComparacionForm } from '@components/ComparacionForm';
 import { ComparacionFormData } from '../types';
-import { trackEvento } from '@services/api';
+import { trackingService } from '@services/tracking';
 import { TEXTOS } from '@config/constants';
 
 export const LandingPage = () => {
   const navigate = useNavigate();
   
   const handleSubmit = async (data: ComparacionFormData) => {
-    // Tracking
-    await trackEvento({
+    // Tracking del envío del formulario (no bloquea la navegación)
+    trackingService.registrarEvento({
       tipoEvento: 'form_complete',
       categoria: 'comparacion',
       accion: 'submit',
@@ -18,7 +18,7 @@ export const LandingPage = () => {
         monto: data.montoSolicitado,
         plazo: data.plazoMeses,
       },
-    });
+    }).catch(console.error);
     
     // Navegar a resultados con datos en state
     navigate('/resultados', { state: { formData: data } });

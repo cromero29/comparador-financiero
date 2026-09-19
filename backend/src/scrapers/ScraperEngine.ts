@@ -261,6 +261,8 @@ export class ScraperEngine {
 
     this.browser = await puppeteer.launch({
       headless: env.PUPPETEER_HEADLESS,
+      // En producción/Docker usa el Chromium del sistema (definido en Dockerfile)
+      executablePath: process.env.PUPPETEER_EXECUTABLE_PATH || undefined,
       args: [
         '--no-sandbox',
         '--disable-setuid-sandbox',

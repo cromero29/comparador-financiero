@@ -1,5 +1,5 @@
 import { useCallback } from 'react';
-import { trackEvento } from '@services/api';
+import { trackingService } from '@services/tracking';
 
 export const useAnalytics = () => {
   const track = useCallback(async (
@@ -9,7 +9,7 @@ export const useAnalytics = () => {
     metadata: Record<string, any> = {}
   ) => {
     try {
-      await trackEvento({
+      await trackingService.registrarEvento({
         tipoEvento,
         categoria,
         accion,

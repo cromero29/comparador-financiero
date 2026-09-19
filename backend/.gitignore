@@ -22,9 +22,8 @@ yarn-error.log*
 # Testing
 coverage/
 
-# Prisma
-prisma/migrations/
-!prisma/migrations/.gitkeep
+# Prisma (las migraciones SÍ se versionan para deployment en producción)
+# prisma/migrations/ debe estar en el repo para 'prisma migrate deploy'
 
 # OS
 .DS_Store

@@ -5,7 +5,6 @@ import { Badge } from './ui/Badge';
 import { OfertaComparada } from '../types';
 import { formatCurrency, formatPercentage } from '@utils/format';
 import { RANKING_COLORS, ENTIDAD_ICONS } from '@config/constants';
-import { trackClic } from '@services/api';
 import { trackingService } from '@services/tracking';
 import { getLogo } from '@/assets/logos';
 
@@ -64,15 +63,6 @@ export const OfertaCard = ({
         ingresos,
         tipoEmpleo,
         urlDestino: oferta.urlSolicitud,
-      });
-      
-      // También usar el tracking viejo para compatibilidad
-      await trackClic({
-        productoId: oferta.id,
-        posicion: oferta.ranking.posicion,
-        montoSolicitado: montoSolicitado,
-        plazoMeses: oferta.condiciones.plazoMeses,
-        tipoProducto: oferta.producto.tipo,
       });
       
       // Abrir URL en nueva pestaña

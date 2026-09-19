@@ -5,7 +5,7 @@ import { OfertaCard } from '@components/OfertaCard';
 import { Button } from '@components/ui/Button';
 import { Loading, CardSkeleton } from '@components/ui/Loading';
 import { ComparacionFormData, ResultadoComparacion } from '../types';
-import { compararOfertas, trackEvento } from '@services/api';
+import { compararOfertas } from '@services/api';
 import { trackingService } from '@services/tracking';
 import { formatCurrency, formatPercentage } from '@utils/format';
 import { TEXTOS } from '@config/constants';
@@ -41,17 +41,17 @@ export const ResultadosPage = () => {
             ofertasEncontradas: data.ofertas.length,
             mejorTasa: data.resumen.mejorTasa,
             mejorCuota: data.resumen.mejorCuota,
-            entidad1Id: data.ofertas[0]?.entidadId,
-            entidad2Id: data.ofertas[1]?.entidadId,
-            entidad3Id: data.ofertas[2]?.entidadId,
+            entidad1Id: data.ofertas[0]?.entidad.id,
+            entidad2Id: data.ofertas[1]?.entidad.id,
+            entidad3Id: data.ofertas[2]?.entidad.id,
           });
         } catch (error) {
           console.error('Error registrando búsqueda:', error);
         }
       }
       
-      // Tracking de evento
-      await trackEvento({
+      // Tracking de evento con el servicio nuevo
+      await trackingService.registrarEvento({
         tipoEvento: 'results_view',
         categoria: 'comparacion',
         accion: 'view',
@@ -238,7 +238,7 @@ export const ResultadosPage = () => {
             {totalPaginas > 1 && (
               <div className="mt-8 flex justify-center items-center gap-4">
                 <Button
-                  variant="outline"
+                  variant="secondary"
                   onClick={() => handleCambioPagina(paginaActual - 1)}
                   disabled={paginaActual === 1}
                 >
@@ -262,7 +262,7 @@ export const ResultadosPage = () => {
                 </div>
                 
                 <Button
-                  variant="outline"
+                  variant="secondary"
                   onClick={() => handleCambioPagina(paginaActual + 1)}
                   disabled={paginaActual === totalPaginas}
                 >

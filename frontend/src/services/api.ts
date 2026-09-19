@@ -50,44 +50,10 @@ export const compararOfertas = async (
 };
 
 // ============================================
-// TRACKING
+// TRACKING (deprecado - usar trackingService de @services/tracking)
 // ============================================
-
-export const trackEvento = async (data: {
-  tipoEvento: string;
-  categoria: string;
-  accion: string;
-  metadata: Record<string, any>;
-}): Promise<void> => {
-  try {
-    await api.post('/tracking/evento', {
-      ...data,
-      url: window.location.href,
-    });
-  } catch (error) {
-    // Silenciar errores de tracking para no afectar UX
-    console.warn('Error en tracking:', error);
-  }
-};
-
-export const trackClic = async (data: {
-  productoId: string;
-  posicion: number;
-  montoSolicitado: number;
-  plazoMeses: number;
-  tipoProducto: string;
-}): Promise<{ urlRedirect: string }> => {
-  const response = await api.post<ApiResponse<{ urlRedirect: string }>>(
-    '/tracking/clic',
-    data
-  );
-  
-  if (!response.data.success) {
-    throw new Error('Error al registrar clic');
-  }
-  
-  return response.data.data!;
-};
+// Los endpoints /tracking/evento y /tracking/clic fueron reemplazados por
+// el sistema de tracking detallado en @services/tracking.ts
 
 // ============================================
 // PRODUCTOS
