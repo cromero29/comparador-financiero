@@ -45,14 +45,13 @@ export const OfertaCard = ({
     // IMPORTANTE: abrir la pestaña de inmediato, dentro del gesto del usuario.
     // Los navegadores móviles (Safari/Chrome) bloquean window.open si ocurre
     // después de un await. Por eso abrimos primero y trackeamos en segundo plano.
-    const nuevaVentana = window.open(oferta.urlSolicitud, '_blank', 'noopener,noreferrer');
+    // NOTA: NO usar 'noopener' aquí porque hace que window.open devuelva null
+    // aunque la pestaña sí se abra, disparando el fallback por error.
+    const nuevaVentana = window.open(oferta.urlSolicitud, '_blank');
 
-    // Si el navegador bloqueó el popup, navegamos en la misma pestaña como fallback
-    if (!nuevaVentana) {
-      // Registrar el clic sin bloquear y luego redirigir
-      trackingService.registrarClic(construirDatosClic()).catch(console.error);
-      window.location.href = oferta.urlSolicitud;
-      return;
+    // Desvincular la ventana hija por seguridad (evita acceso a window.opener)
+    if (nuevaVentana) {
+      nuevaVentana.opener = null;
     }
 
     // Registrar el clic en segundo plano (no bloquea la navegación)
